@@ -8,5 +8,7 @@ public class Constants {
 	public static final String PREFS_SERVICE_URL	="PREFS_SERVICE_URL";
 	public static final String PREFS_SERVICE_USER	="PREFS_SERVICE_USER";
 	public static final String PREFS_SERVICE_PASS	="PREFS_SERVICE_PASS";
+	
+	public static final String DEFAULT_SERVICE_URL 	="demo.primum.es";
 
 }

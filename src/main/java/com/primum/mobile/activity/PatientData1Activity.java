@@ -12,8 +12,11 @@ import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
 import com.primum.mobile.model.Patient;
+import com.primum.mobile.rest.PatientRESTClient;
+import com.primum.mobile.util.PrimumPrefs_;
 
 @EActivity
 public class PatientData1Activity extends Activity {
@@ -38,7 +41,7 @@ public class PatientData1Activity extends Activity {
                 getString(R.string.loading_please_wait), true);
 		dialog.show();
 		
-		askForPatientData(txPatientId.getText().toString());
+		askForPatientData("28829306w");//txPatientId.getText().toString());
 	}
 	
 	@Click(R.id.btnStartTest)
@@ -54,11 +57,14 @@ public class PatientData1Activity extends Activity {
 	}
 
 	@Background
-	void askForPatientData(String idNumber) {
-		
+	void askForPatientData(String patientKey) {
+		Log.d(TAG, "Patient inf " );
 		try {
-			Thread.currentThread().sleep(2000);
-		} catch (InterruptedException e) {
+			PatientRESTClient pClient = new PatientRESTClient(primumPrefs);
+			Patient p = pClient.getPatient(primumPrefs.serviceUser().get() , patientKey);
+			Log.d(TAG, "Patient " + p.getName());
+            
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -99,6 +105,8 @@ public class PatientData1Activity extends Activity {
 	EditText txSurname1;
 	@ViewById
 	EditText txSurname2;
+	@Pref
+	PrimumPrefs_ primumPrefs; 
 	private ProgressDialog dialog;
 	private static String TAG = "PatientData1Activity";
 }
