@@ -1,5 +1,7 @@
 package com.primum.mobile.rest;
 
+import java.util.Date;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -28,7 +30,7 @@ public abstract class AbstractRESTClient {
 						primumPrefs.serviceUser().get(), 
 						primumPrefs.servicepass().get()));
 	
-		baseUrl = serviceUrl  + "/" + getServiceContext() + "/api/secure/jsonws" + getModelName();
+		baseUrl = "http://" + serviceUrl  + "/" + getServiceContext() + "/api/secure/jsonws/" + getModelName();
 	}
 	
 	public String getForJSONObject(String url){
@@ -42,6 +44,20 @@ public abstract class AbstractRESTClient {
 			Log.e(TAG,"Error getting patient", e);
 			return null;
 		}
+	}
+	
+	protected String addParamToRequestURL(String requestURL, String paramName, Object value){
+		String newRequestURL = requestURL;
+		if(value==null || value.toString().equals(""))  return requestURL + "/-" + paramName;
+		else{
+			if(value instanceof Date) {
+				newRequestURL = newRequestURL + "/" + paramName + "/" + ((Date)value).getTime();
+			}
+			else  {
+				newRequestURL = newRequestURL + "/" + paramName + "/" + value.toString();
+			} 
+		}
+		return newRequestURL;
 	}
 
 	public abstract String getServiceContext();

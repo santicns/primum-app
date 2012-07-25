@@ -30,19 +30,7 @@ public class PatientRESTClient extends AbstractRESTClient{
 		return gsonBuilder.create().fromJson(jsonObj, Patient.class);
 	}
 	
-	protected String addParamToRequestURL(String requestURL, String paramName, Object value){
-		String newRequestURL = requestURL;
-		if(value==null || value.toString().equals(""))  return requestURL + "/-" + paramName;
-		else{
-			if(value instanceof Date) {
-				newRequestURL = newRequestURL + "/" + paramName + "/" + ((Date)value).getTime();
-			}
-			else  {
-				newRequestURL = newRequestURL + "/" + paramName + "/" + value.toString();
-			} 
-		}
-		return newRequestURL;
-	}
+	
 
 
 	@Override

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Primum</string>
+    <string name="device_id">ID Dispositivo</string>
+    <string name="device_pass">Contraseña dispositivo</string>
+    <string name="service_url">URL del servicio</string>
+    <string name="service_user_name">Usuario del servico</string>
+    <string name="service_pass">Contraseña del servicio</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Guardar</string>
+    <string name="new_test">Nueva prueba</string>
+    <string name="configuration">Configuración</string>
+    <string name="patient_id">ID del paciente</string>
+    <string name="get">Obtener</string>
+    <string name="name">Nombre</string>
+    <string name="surname_1">Primer apellido</string>
+    <string name="surname_2">Segundo apellido</string>
+    <string name="next">Siguiente</string>
+    <string name="birth_date">Fecha de nacimiento</string>
+    <string name="height">Altura</string>
+    <string name="weight">Peso</string>
+    <string name="back">Back</string>
+    <string name="start_test">Iniciar prueba</string>
+    <string name="test_finished">Prueba finalizada!</string>
+    <string name="submit">Enviar</string>
+    <string name="home">Inicio</string>
+    <string name="start">Comenzar</string>
+    <string name="exit">Salir</string>
+    <string name="electrocardiogram">Electrocardiogram</string>
+    <string name="oxygen_in_blood">Oxygen in blood</string>
+    <string name="blood_pressure">Blood pressure</string>
+    <string name="not_all_preferences_set">No se han definido todas las preferencias!</string>
+    <string name="preferences_saved">Preferencias almacenadas</string>
+    <string name="please_enter_a_valid_patient_id">Por favor, inserte un identificador de paciente válido.</string>
+    <string name="loading_please_wait">Cargando, por favor, espero...</string>
+    <string name="user_not_found_please_enter_data_manually">Paciente no encontrado en el sistema. Inserte los datos manualmente.</string>
+    <string name="performing_test_please_wait">Realizando prueba. Por favor, espere...</string>
+    <string name="test_correctly_saved">Prueba almacenada correctamente.</string>
+    <string name="test_submited_correctly">Prueba enviada correctamente.</string>
+    <string name="patient_password">Patient Password</string>
+    <string name="patient_fixed">Paciente seleccionado.</string>
+    <string name="clear">Limpiar</string>
+    <string name="select_one_test">Elija una prueba.</string>
+    <string name="language">Idioma</string>
+</resources>

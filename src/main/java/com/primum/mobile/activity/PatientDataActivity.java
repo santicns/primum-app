@@ -19,7 +19,7 @@ import com.primum.mobile.rest.PatientRESTClient;
 import com.primum.mobile.util.PrimumPrefs_;
 
 @EActivity
-public class PatientData1Activity extends Activity {
+public class PatientDataActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,17 +58,15 @@ public class PatientData1Activity extends Activity {
 
 	@Background
 	void askForPatientData(String patientKey) {
-		Log.d(TAG, "Patient inf " );
+		Patient p = null;
 		try {
 			PatientRESTClient pClient = new PatientRESTClient(primumPrefs);
-			Patient p = pClient.getPatient(primumPrefs.serviceUser().get() , patientKey);
-			Log.d(TAG, "Patient " + p.getName());
-            
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			p = pClient.getPatient(primumPrefs.serviceUser().get() , patientKey);
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
-		gotUserFromServer(null);
+		gotUserFromServer(p);
 	}
 	
 	@UiThread
@@ -79,7 +77,6 @@ public class PatientData1Activity extends Activity {
 			txName.setFocusable(true);
 			txSurname1.setFocusable(true);
 			txSurname2.setFocusable(true);
-			txName.setText("ccc");
 		}
 		else{
 			populateFileds(patient);
@@ -88,13 +85,13 @@ public class PatientData1Activity extends Activity {
 	}
 	
 	private void populateFileds(Patient patient) {
-		// TODO Populate fields
+		txName.setText(patient.getName());
+		txSurname1.setText(patient.getSurname1());
+		txSurname2.setText(patient.getSurname2());
 	}
 
 	private boolean validateForm() {
-		//TODO:Implement this method
 		return true;
-		
 	}
 
 	@ViewById

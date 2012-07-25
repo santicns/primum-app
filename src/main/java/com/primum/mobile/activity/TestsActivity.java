@@ -2,17 +2,14 @@ package com.primum.mobile.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
@@ -34,7 +31,7 @@ public class TestsActivity extends Activity implements DialogInterface.OnClickLi
     	int selected = rgTests.getCheckedRadioButtonId();
     	if(selected!=-1){
     		if(!PrefUtils.isUserSelected(primumPrefs)){
-    			PatientData1Activity_.intent(this).start();
+    			PatientDataActivity_.intent(this).start();
     		}
     		else{
     			displayConfirmDialog();

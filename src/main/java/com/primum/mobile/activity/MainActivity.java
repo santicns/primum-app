@@ -1,12 +1,16 @@
 package com.primum.mobile.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
+import com.primum.mobile.util.Constants;
+import com.primum.mobile.util.LangUtils;
 import com.primum.mobile.util.PrefUtils;
 import com.primum.mobile.util.PrimumPrefs_;
 
@@ -24,7 +28,7 @@ public class MainActivity extends Activity {
         }
         setContentView(R.layout.main);
     }
-	
+
 	@Click(R.id.imgConfig)
 	void clickOnConfig(){
 		ConfigActivity_.intent(this).start();
@@ -36,6 +40,18 @@ public class MainActivity extends Activity {
 	}
 	
 	
+	
+	@Override
+	public void finishFromChild(Activity child) {
+		Log.d(TAG, "finishFromChild");
+		super.finishFromChild(child);
+		Intent intent = getIntent();
+		finish();
+		startActivity(intent);
+	}
+
+
+
 	@Pref
 	PrimumPrefs_ primumPrefs; 
 	private static String TAG = "MainActivity";

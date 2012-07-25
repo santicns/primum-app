@@ -1,8 +1,18 @@
 package com.primum.mobile.activity;
 
+import java.util.Locale;
+
 import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.googlecode.androidannotations.annotations.Click;
@@ -10,11 +20,13 @@ import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
+import com.primum.mobile.util.Constants;
+import com.primum.mobile.util.LangUtils;
 import com.primum.mobile.util.PrefUtils;
 import com.primum.mobile.util.PrimumPrefs_;
 
 @EActivity
-public class DeviceConfigActivity extends Activity {
+public class DeviceConfigActivity extends Activity implements OnItemSelectedListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,8 +47,8 @@ public class DeviceConfigActivity extends Activity {
 		}
 		else{
 			finish();
+			getParent().finish();
 			Toast.makeText(this, R.string.preferences_saved, Toast.LENGTH_SHORT).show();
-			MainActivity_.intent(this).start();
 		}
 	}
 	
@@ -46,16 +58,50 @@ public class DeviceConfigActivity extends Activity {
 			Toast.makeText(this, "R.string.not_all_preferences_set", Toast.LENGTH_SHORT).show();
 		}
 		else{
+			getParent().finish();
 			finish();
-			MainActivity_.intent(this).start();
 		}
 	}
 	
 	private void populateLayout() {
-
 		txServiceUrl.setText(primumPrefs.serviceUrl().get());
 		txServiceUser.setText(primumPrefs.serviceUser().get());
 		txServicePass.setText(primumPrefs.servicepass().get());
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		        R.array.languages, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		spLanguage.setAdapter(adapter);
+		for(int i=0; i<Constants.PREFS_LANG.length; i++){
+			if(primumPrefs.deviceLang().get().equals(Constants.PREFS_LANG[i])){
+				Log.d(TAG,"Constants.PREFS_LANG[i] " + Constants.PREFS_LANG[i]);
+				spLanguage.setSelection(i);
+				break;
+			}
+		}
+		spLanguage.setOnItemSelectedListener(this);
+	}
+	
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
+		if(!primumPrefs.deviceLang().get().equals(Constants.PREFS_LANG[pos])){
+			primumPrefs.deviceLang().put(Constants.PREFS_LANG[pos]);
+			LangUtils.updateLanguage(this, primumPrefs.deviceLang().get());
+			reload();
+		}
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+	}
+	
+	public void reload() {
+		Intent intent = ConfigActivity_.intent(this).get();
+		overridePendingTransition(0, 0);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		finish();
+		overridePendingTransition(0, 0);
+		startActivity(intent);
 	}
 
 	@ViewById
@@ -64,8 +110,11 @@ public class DeviceConfigActivity extends Activity {
 	EditText txServiceUser;
 	@ViewById
 	EditText txServicePass;
+	@ViewById
+	Spinner spLanguage;
 
 	@Pref
 	PrimumPrefs_ primumPrefs; 
 	private static String TAG = "ConfigActivity";
+	
 }
