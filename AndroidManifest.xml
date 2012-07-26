@@ -25,18 +25,22 @@
         </activity>
         <activity
             android:name=".activity.ConfigActivity_"
+            android:windowSoftInputMode="adjustPan" 
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".activity.DeviceConfigActivity_"
+            android:windowSoftInputMode="adjustPan" 
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".activity.PatientConfigActivity_"
+            android:windowSoftInputMode="adjustPan" 
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".activity.PatientDataActivity_"
+            android:windowSoftInputMode="adjustPan" 
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity> 
         <activity

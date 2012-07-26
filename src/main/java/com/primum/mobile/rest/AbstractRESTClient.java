@@ -34,16 +34,20 @@ public abstract class AbstractRESTClient {
 	}
 	
 	public String getForJSONObject(String url){
+		String result = null;
 		HttpGet httpGet = new HttpGet(url);
 		try {
 			HttpResponse response = httpClient.execute(httpGet);
-			String result = EntityUtils.toString(response.getEntity());
+			result = EntityUtils.toString(response.getEntity());
 			Log.d(TAG,"result " + result);
-			return result;
-		} catch (Exception e) {
-			Log.e(TAG,"Error getting patient", e);
-			return null;
 		}
+		catch (Exception e) {
+			Log.e(TAG,"Error getting patient", e);
+		}
+		finally{
+			httpClient.getConnectionManager().shutdown();
+		}
+		return result;
 	}
 	
 	protected String addParamToRequestURL(String requestURL, String paramName, Object value){

@@ -19,13 +19,13 @@ public class ConfigActivity extends TabActivity {
 		tabHost = getTabHost();
 	    TabHost.TabSpec spec;
 	    
-	    spec = tabHost.newTabSpec("device").setIndicator("Device",
+	    spec = tabHost.newTabSpec("device").setIndicator(getString(R.string.device),
                 res.getDrawable(android.R.drawable.ic_menu_manage))
             .setContent(DeviceConfigActivity_.intent(this). get());
 		tabHost.addTab(spec);
 		
 		
-		spec = tabHost.newTabSpec("user").setIndicator("Patient",
+		spec = tabHost.newTabSpec("user").setIndicator(getString(R.string.patient),
                 res.getDrawable(android.R.drawable.ic_menu_set_as))
             .setContent(PatientConfigActivity_.intent(this). get());
 		tabHost.addTab(spec);

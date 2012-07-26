@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Primum</string>
+    <string name="device">Dispositivo</string>
+    <string name="patient">Paciente</string>
     <string name="device_id">ID Dispositivo</string>
     <string name="device_pass">Contraseña dispositivo</string>
     <string name="service_url">URL del servicio</string>

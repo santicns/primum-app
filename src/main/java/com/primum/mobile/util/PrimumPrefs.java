@@ -11,5 +11,8 @@ public interface PrimumPrefs {
 	String deviceLang();
 	
 	String patientId();
+	String patientName();
+	String patientSurname1();
+	String patientSurname2();
 	String patientPass();
 }
