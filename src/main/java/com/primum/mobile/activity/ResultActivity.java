@@ -23,7 +23,7 @@ public class ResultActivity extends Activity {
         setContentView(R.layout.result);
         
         dialog = ProgressDialog.show(this, "",
-				getString(R.string.performing_test_please_wait), true);
+				getString(R.string.performing_test_please_wait, "aa"), true);
 		dialog.show();
         
         performTest(0);

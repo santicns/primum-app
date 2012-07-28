@@ -1,11 +1,5 @@
 package com.primum.mobile.rest;
 
-import java.util.Date;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.util.EntityUtils;
-
 import android.util.Log;
 
 import com.google.gson.GsonBuilder;
@@ -30,9 +24,6 @@ public class PatientRESTClient extends AbstractRESTClient{
 		return gsonBuilder.create().fromJson(jsonObj, Patient.class);
 	}
 	
-	
-
-
 	@Override
 	public String getServiceContext() {
 		return "AdvancedPatients-portlet";

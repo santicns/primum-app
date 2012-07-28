@@ -19,8 +19,7 @@ public class PrefUtils {
 	}
 	
 	public static boolean isUserSelected(PrimumPrefs_ primumPrefs) {
-		return !primumPrefs.patientId().get().equals("")
-				&& !primumPrefs.patientPass().get().equals("");
+		return !primumPrefs.patientId().get().equals("");
 	}
 
 }

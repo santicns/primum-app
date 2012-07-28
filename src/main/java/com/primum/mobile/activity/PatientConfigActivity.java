@@ -16,7 +16,6 @@ import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
 import com.primum.mobile.model.Patient;
 import com.primum.mobile.rest.PatientRESTClient;
-import com.primum.mobile.util.PrefUtils;
 import com.primum.mobile.util.PrimumPrefs_;
 
 @EActivity
@@ -48,8 +47,7 @@ public class PatientConfigActivity extends Activity {
                 getString(R.string.loading_please_wait), true);
 		dialog.show();
 		
-		/*TODO: obtener dni de campo txPatientId*/
-		askForPatientData("28829306w");
+		askForPatientData(txPatientId.getText().toString());
 	}
 	
 	@Click(R.id.btnSave)
@@ -59,13 +57,9 @@ public class PatientConfigActivity extends Activity {
 		primumPrefs.patientSurname1().put(txSurname1.getText().toString());
 		primumPrefs.patientSurname2().put(txSurname2.getText().toString());
 
-		finish();
-		
 		Toast.makeText(this, R.string.patient_fixed, Toast.LENGTH_SHORT)
 				.show();
 		
-		//MainActivity_.intent(this).start();
-
 	}
 	
 	@Click(R.id.btnCancel)
@@ -77,8 +71,10 @@ public class PatientConfigActivity extends Activity {
 	@Click(R.id.btnClear)
 	void clickOnClear(){
 		txPatientId.setText("");
+		txName.setText("");
+		txSurname1.setText("");
+		txSurname2.setText("");
 	}
-	
 	
 	@Background
 	void askForPatientData(String patientKey) {
@@ -114,7 +110,6 @@ public class PatientConfigActivity extends Activity {
 		txSurname1.setText(patient.getSurname1());
 		txSurname2.setText(patient.getSurname2());
 	}
-	
 
 	@ViewById
 	EditText txPatientId;

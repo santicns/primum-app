@@ -55,7 +55,7 @@ public class DeviceConfigActivity extends Activity implements OnItemSelectedList
 	@Click(R.id.btnCancel)
 	void clickOnCancel(){
 		if(!PrefUtils.allPrefsSet(primumPrefs)){
-			Toast.makeText(this, "R.string.not_all_preferences_set", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.not_all_preferences_set), Toast.LENGTH_SHORT).show();
 		}
 		else{
 			getParent().finish();
@@ -64,7 +64,7 @@ public class DeviceConfigActivity extends Activity implements OnItemSelectedList
 	}
 	
 	private void populateLayout() {
-		txServiceUrl.setText(primumPrefs.serviceUrl().get());
+		txServiceUrl.setText(primumPrefs.serviceUrl().getOr(Constants.DEFAULT_SERVICE_URL));
 		txServiceUser.setText(primumPrefs.serviceUser().get());
 		txServicePass.setText(primumPrefs.servicepass().get());
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
