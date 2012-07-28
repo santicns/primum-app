@@ -2,17 +2,13 @@ package com.primum.mobile.rest;
 
 import java.util.Date;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
-import android.util.Log;
-
-import com.google.gson.GsonBuilder;
-import com.primum.mobile.model.Patient;
 import com.primum.mobile.util.Constants;
 import com.primum.mobile.util.PrimumPrefs_;
 
@@ -31,24 +27,11 @@ public abstract class AbstractRESTClient {
 						primumPrefs.servicepass().get()));
 	
 		baseUrl = "http://" + serviceUrl  + "/" + getServiceContext() + "/api/secure/jsonws/" + getModelName();
+		requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+		rt = new RestTemplate(requestFactory);
+		rt.getMessageConverters().add(new GsonHttpMessageConverter());
 	}
 	
-	public String getForJSONObject(String url){
-		String result = null;
-		HttpGet httpGet = new HttpGet(url);
-		try {
-			HttpResponse response = httpClient.execute(httpGet);
-			result = EntityUtils.toString(response.getEntity());
-			Log.d(TAG,"result " + result);
-		}
-		catch (Exception e) {
-			Log.e(TAG,"Error getting patient", e);
-		}
-		finally{
-			httpClient.getConnectionManager().shutdown();
-		}
-		return result;
-	}
 	
 	protected String addParamToRequestURL(String requestURL, String paramName, Object value){
 		String newRequestURL = requestURL;
@@ -72,4 +55,6 @@ public abstract class AbstractRESTClient {
 	protected DefaultHttpClient httpClient;
 	protected String baseUrl = "";
 	protected String TAG = this.getClass().getName();
+	protected HttpComponentsClientHttpRequestFactory requestFactory;
+	protected RestTemplate rt;
 }

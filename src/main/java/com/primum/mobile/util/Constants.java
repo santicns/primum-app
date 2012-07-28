@@ -14,5 +14,7 @@ public class Constants {
 	public static final String[] PREFS_LANG = {PREFS_LANG_EN, PREFS_LANG_ES};
 	
 	public static final String DEFAULT_SERVICE_URL 	="demo.primum.es";
+	
+	public static final String PARAM_PATIENT_ID 	="patientId";
 
 }

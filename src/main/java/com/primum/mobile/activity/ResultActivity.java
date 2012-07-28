@@ -10,8 +10,10 @@ import android.widget.Toast;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.primum.mobile.R;
+import com.primum.mobile.util.Constants;
 
 @EActivity
 public class ResultActivity extends Activity {
@@ -23,7 +25,7 @@ public class ResultActivity extends Activity {
         setContentView(R.layout.result);
         
         dialog = ProgressDialog.show(this, "",
-				getString(R.string.performing_test_please_wait, "aa"), true);
+				getString(R.string.performing_test_please_wait, patientId), true);
 		dialog.show();
         
         performTest(0);
@@ -67,7 +69,9 @@ public class ResultActivity extends Activity {
    		
    	}
     
-    private ProgressDialog dialog;
-    private static String TAG = "ResultActivity";
+    @Extra(Constants.PARAM_PATIENT_ID)
+	String patientId;
+    ProgressDialog dialog;
+    static String TAG = "ResultActivity";
 }
 

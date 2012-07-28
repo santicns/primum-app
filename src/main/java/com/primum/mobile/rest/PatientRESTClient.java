@@ -1,5 +1,8 @@
 package com.primum.mobile.rest;
 
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
 import android.util.Log;
 
 import com.google.gson.GsonBuilder;
@@ -20,7 +23,33 @@ public class PatientRESTClient extends AbstractRESTClient{
 		Log.d(TAG,"URL " + url);
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();
-		String jsonObj = getForJSONObject(url);
+		String jsonObj = rt.getForObject(url, String.class);
+		return gsonBuilder.create().fromJson(jsonObj, Patient.class);
+	}
+	
+	public Patient addPatient(Patient patient){
+		String url = baseUrl + "/add-patient";
+		
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		String jsonObj = rt.postForObject(url, patient, String.class);
+		return gsonBuilder.create().fromJson(jsonObj, Patient.class);
+	}
+	
+	
+	public Patient addPatient(String userScreenName, String patientKey, String name, String firstSurname, String secondSurname, String birthDate){
+		String url = baseUrl + "/add-patient";
+		
+		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
+		parts.add("userScreenName", userScreenName);
+		parts.add("patientKey", patientKey);
+		parts.add("name", name);
+		parts.add("firstSurname", firstSurname);
+		parts.add("secondSurname", secondSurname);
+		parts.add("birthDate", "0");
+		
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		String jsonObj = rt.postForObject(url, parts, String.class);
+		Log.d(TAG,"jsonObj " + jsonObj);
 		return gsonBuilder.create().fromJson(jsonObj, Patient.class);
 	}
 	
