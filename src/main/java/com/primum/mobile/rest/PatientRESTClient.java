@@ -55,7 +55,7 @@ public class PatientRESTClient extends AbstractRESTClient{
 	
 	@Override
 	public String getServiceContext() {
-		return "AdvancedPatients-portlet";
+		return "Primum-portlet";
 	}
 
 	@Override
