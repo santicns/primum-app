@@ -6,6 +6,7 @@ import org.springframework.util.MultiValueMap;
 import android.util.Log;
 
 import com.google.gson.GsonBuilder;
+import com.googlecode.androidannotations.annotations.EBean;
 import com.primum.mobile.model.Patient;
 import com.primum.mobile.util.PrimumPrefs_;
 

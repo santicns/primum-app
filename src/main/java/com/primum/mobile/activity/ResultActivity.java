@@ -12,8 +12,13 @@ import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
+import com.primum.mobile.model.Patient;
+import com.primum.mobile.rest.MedicalTestRESTClient;
+import com.primum.mobile.rest.PatientRESTClient;
 import com.primum.mobile.util.Constants;
+import com.primum.mobile.util.PrimumPrefs_;
 
 @EActivity
 public class ResultActivity extends Activity {
@@ -31,8 +36,14 @@ public class ResultActivity extends Activity {
         performTest(0);
     }
     
-    
-    @Background
+    @Override
+	protected void onResume() {
+		super.onResume();
+		patientRestClient = new PatientRESTClient(primumPrefs);
+		medicalTestRestClient = new MedicalTestRESTClient(primumPrefs);
+	}
+
+	@Background
 	void performTest(long testId) {
     	try {
 			Thread.currentThread().sleep(5000);
@@ -52,9 +63,25 @@ public class ResultActivity extends Activity {
     
     @Click(R.id.btnSave)
    	void clickOnSave() {
-    	//TODO:Save test locally
-    	Toast.makeText(this, R.string.test_correctly_saved, Toast.LENGTH_LONG).show();
+    	dialog = ProgressDialog.show(this, "",getString(R.string.saving_test_please_wait) , true);
+		dialog.show();
    	}
+    
+	    @Background
+		void saveTest(long testId) {
+	    	Patient p = patientRestClient.getPatient(primumPrefs.serviceUser().get(), patientId);
+	    	if(p==null || p.getPatientKey().equals("")){
+	    		patientRestClient.
+	    	}
+	    	//Guardamos test
+	    	testSaved();
+		}
+	    
+	    @UiThread
+		void testSaved(){
+			dialog.cancel();
+			Toast.makeText(this, R.string.test_correctly_saved, Toast.LENGTH_LONG).show();
+		}
     
     @Click(R.id.btnSubmit)
    	void clickOnSubmit() {
@@ -69,8 +96,13 @@ public class ResultActivity extends Activity {
    		
    	}
     
+    
+    PatientRESTClient patientRestClient;
+    MedicalTestRESTClient medicalTestRestClient;
     @Extra(Constants.PARAM_PATIENT_ID)
 	String patientId;
+    @Pref
+	PrimumPrefs_ primumPrefs;
     ProgressDialog dialog;
     static String TAG = "ResultActivity";
 }
