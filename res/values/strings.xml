@@ -45,4 +45,6 @@
     <string name="select_one_test">Select one test.</string>
     <string name="language">Language</string>
     <string name="saving_test_please_wait">Saving test. Please wait.</string>
+    <string name="submitting_test_please_wait">Submitting test. Please wait.</string>
+    <string name="pulse">Pulse</string>
 </resources>

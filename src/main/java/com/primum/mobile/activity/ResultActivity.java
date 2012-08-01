@@ -11,8 +11,8 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
 package com.primum.mobile.activity;
+
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -43,11 +43,13 @@ public class ResultActivity extends Activity {
 		Log.i(TAG, "onCreate");
         setContentView(R.layout.result);
         
+        Log.d(TAG, "Results of test " + testKey + " for patient " + currentPatient.getPatientKey());
+        
         dialog = ProgressDialog.show(this, "",
-				getString(R.string.performing_test_please_wait, patientId), true);
+				getString(R.string.performing_test_please_wait, currentPatient.getPatientKey()), true);
 		dialog.show();
         
-        performTest(0);
+        performTest(testKey);
     }
     
     @Override
@@ -58,9 +60,9 @@ public class ResultActivity extends Activity {
 	}
 
 	@Background
-	void performTest(long testId) {
+	void performTest(String testKey) {
     	try {
-			Thread.currentThread().sleep(5000);
+			Thread.currentThread().sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,28 +82,32 @@ public class ResultActivity extends Activity {
     	dialog = ProgressDialog.show(this, "",getString(R.string.saving_test_please_wait) , true);
 		dialog.show();
    	}
-    
-	    @Background
-		void saveTest(long testId) {
-	    	Patient p = patientRestClient.getPatient(primumPrefs.serviceUser().get(), patientId);
-	    	if(p==null || p.getPatientKey().equals("")){
-	    		//patientRestClient.
-	    	}
-	    	//Guardamos test
-	    	testSaved();
-		}
-	    
-	    @UiThread
-		void testSaved(){
-			dialog.cancel();
-			Toast.makeText(this, R.string.test_correctly_saved, Toast.LENGTH_LONG).show();
-		}
+   
     
     @Click(R.id.btnSubmit)
    	void clickOnSubmit() {
-    	//TODO:Save test locally and send to server
-    	Toast.makeText(this, R.string.test_submited_correctly, Toast.LENGTH_LONG).show();
-   	}
+    	dialog = ProgressDialog.show(this, "",getString(R.string.submitting_test_please_wait) , true);
+		dialog.show();
+		submitTest(testKey);
+    }
+    
+	    @Background
+		void submitTest(String testKey) {
+	    	Log.d(TAG, "Submitting test");
+	    	Patient p = patientRestClient.getPatient(primumPrefs.serviceUser().get(), currentPatient.getPatientKey());
+	    	if(p==null || p.getPatientId()==0){
+	    		Log.d("TAG", "User does not exists in platform. Let's create it!");
+	    		p=patientRestClient.addPatient(primumPrefs.serviceUser().get(),currentPatient.getPatientKey(), currentPatient.getName(), currentPatient.getSurname1(), currentPatient.getSurname2(), 0);
+	    	}
+	    	medicalTestRestClient.addMedicalTest(primumPrefs.serviceUser().get(), p.getPatientId(), testKey, "dsfsa");
+	    	testSubmited();
+		}
+	    
+	    @UiThread
+		void testSubmited(){
+			dialog.cancel();
+			Toast.makeText(this, R.string.test_correctly_saved, Toast.LENGTH_LONG).show();
+		}
     
     @Click(R.id.btnHome)
    	void clickOnHome() {
@@ -113,11 +119,12 @@ public class ResultActivity extends Activity {
     
     PatientRESTClient patientRestClient;
     MedicalTestRESTClient medicalTestRestClient;
-    @Extra(Constants.PARAM_PATIENT_ID)
-	String patientId;
+    @Extra
+	Patient currentPatient;
+    @Extra
+	String testKey;
     @Pref
 	PrimumPrefs_ primumPrefs;
     ProgressDialog dialog;
     static String TAG = "ResultActivity";
 }
-

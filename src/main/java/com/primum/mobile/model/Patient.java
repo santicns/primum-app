@@ -14,13 +14,25 @@
 
 package com.primum.mobile.model;
 
-public class Patient {
-	
+import java.io.Serializable;
+
+public class Patient implements Serializable{
+
+	private static final long serialVersionUID = -8575739075813023509L;
+
+	private long patientId;
 	private String patientKey;
 	private String name;
 	private String surname1;
 	private String surname2;
 	
+	
+	public long getPatientId() {
+		return patientId;
+	}
+	public void setPatientId(long patientId) {
+		this.patientId = patientId;
+	}
 	public String getPatientKey() {
 		return patientKey;
 	}

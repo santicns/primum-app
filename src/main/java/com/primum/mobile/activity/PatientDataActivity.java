@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
@@ -55,13 +56,22 @@ public class PatientDataActivity extends Activity {
                 getString(R.string.loading_please_wait), true);
 		dialog.show();
 		
-		askForPatientData("28829306w");//txPatientId.getText().toString());
+		askForPatientData(txPatientId.getText().toString());
 	}
 	
 	@Click(R.id.btnStartTest)
 	void clickOnStartTest() {
 		if(validateForm()){
-			ResultActivity_.intent(this).start();
+			Patient currentPatient = new Patient();
+			currentPatient.setPatientKey(txPatientId.getText().toString());
+			currentPatient.setName(txName.getText().toString());
+			currentPatient.setSurname1(txSurname1.getText().toString());
+			currentPatient.setSurname2(txSurname2.getText().toString());
+			
+			ResultActivity_.intent(this)
+				.currentPatient(currentPatient)
+				.testKey(testKey)
+				.start();
 		}
 	}
 	
@@ -86,11 +96,11 @@ public class PatientDataActivity extends Activity {
 	@UiThread
 	void gotUserFromServer(Patient patient){
 		dialog.cancel();
-		if(patient==null){
+		if(patient==null || patient.getPatientId()==0){
 			Toast.makeText(this, R.string.user_not_found_please_enter_data_manually, Toast.LENGTH_LONG).show();
-			txName.setFocusable(true);
-			txSurname1.setFocusable(true);
-			txSurname2.setFocusable(true);
+			txName.setFocusableInTouchMode(true);
+			txSurname1.setFocusableInTouchMode(true);
+			txSurname2.setFocusableInTouchMode(true);
 		}
 		else{
 			populateFileds(patient);
@@ -118,6 +128,8 @@ public class PatientDataActivity extends Activity {
 	EditText txSurname2;
 	@Pref
 	PrimumPrefs_ primumPrefs; 
+	@Extra
+	String testKey;
 	private ProgressDialog dialog;
 	private static String TAG = "PatientData1Activity";
 }

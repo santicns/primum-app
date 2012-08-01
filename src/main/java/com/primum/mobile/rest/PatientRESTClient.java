@@ -51,7 +51,7 @@ public class PatientRESTClient extends AbstractRESTClient{
 	}
 	
 	
-	public Patient addPatient(String userScreenName, String patientKey, String name, String firstSurname, String secondSurname, String birthDate){
+	public Patient addPatient(String userScreenName, String patientKey, String name, String firstSurname, String secondSurname, long birthDate){
 		String url = baseUrl + "/add-patient";
 		
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
@@ -60,7 +60,7 @@ public class PatientRESTClient extends AbstractRESTClient{
 		parts.add("name", name);
 		parts.add("firstSurname", firstSurname);
 		parts.add("secondSurname", secondSurname);
-		parts.add("birthDate", "0");
+		parts.add("birthDate", String.valueOf(birthDate));
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		String jsonObj = rt.postForObject(url, parts, String.class);

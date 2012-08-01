@@ -14,6 +14,10 @@
 
 package com.primum.mobile.util;
 
+import android.util.Log;
+
+import com.primum.mobile.model.Patient;
+
 public class PrefUtils {
 
 	public static boolean allPrefsSet(PrimumPrefs_ primumPrefs) {
@@ -35,5 +39,22 @@ public class PrefUtils {
 	public static boolean isUserSelected(PrimumPrefs_ primumPrefs) {
 		return !primumPrefs.patientId().get().equals("");
 	}
+	
+	public static Patient getPredefinedPatient(PrimumPrefs_ primumPrefs){
+		if(primumPrefs.patientId()!=null && !primumPrefs.patientId().equals("")){
+			Patient currentPatient = new Patient();
+			currentPatient.setPatientKey(primumPrefs.patientId().get());
+			currentPatient.setName(primumPrefs.patientName().get());
+			currentPatient.setSurname1(primumPrefs.patientSurname1().get());
+			currentPatient.setSurname2(primumPrefs.patientSurname2().get());
+			return currentPatient;
+		}
+		else{
+			Log.d(TAG, "No predefined patient");
+			return null;
+		}
+	}
+	
+	static String TAG = "ResultActivity";
 
 }

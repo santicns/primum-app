@@ -28,12 +28,13 @@ public class MedicalTestRESTClient extends AbstractRESTClient{
 		super(primumPrefs);
 	}
 	
-	public boolean addMedicalTest(String userScreenName, String patientKey, String medicalTestKey, String body){
+	public boolean addMedicalTest(String userScreenName, long patientId, String medicalTestKey, String body){
 		String url = baseUrl + "/add-medical-test";
+		Log.d(TAG,"URL " + url);
 		
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.add("userScreenName", userScreenName);
-		parts.add("patientKey", patientKey);
+		parts.add("patientId", String.valueOf(patientId));
 		parts.add("medicalTestKey", medicalTestKey);
 		parts.add("body", body);
 		

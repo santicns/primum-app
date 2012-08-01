@@ -17,31 +17,31 @@
             android:layout_marginLeft="10dp" >
 
             <RadioButton
-                android:id="@+id/radioButton1"
+                android:id="@+id/rbElectro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/electrocardiogram"
                 android:textColor="#000000" />
 
             <RadioButton
-                android:id="@+id/radioButton2"
+                android:id="@+id/rbWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/weight"
                 android:textColor="#000000" />
 
             <RadioButton
-                android:id="@+id/radioButton3"
+                android:id="@+id/rbOximetry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/oxygen_in_blood"
                 android:textColor="#000000" />
 
             <RadioButton
-                android:id="@+id/radioButton4"
+                android:id="@+id/rbPulse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/blood_pressure"
+                android:text="@string/pulse"
                 android:textColor="#000000" />
         </RadioGroup>
 

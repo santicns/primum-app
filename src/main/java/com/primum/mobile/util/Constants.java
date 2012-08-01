@@ -30,5 +30,10 @@ public class Constants {
 	public static final String DEFAULT_SERVICE_URL 	="demo.primum.es";
 	
 	public static final String PARAM_PATIENT_ID 	="patientId";
+	
+	public static final String TEST_KEY_ELECTROCARDIOGRAM 	="ELECTROCARDIOGRAM";
+	public static final String TEST_KEY_OXIMETRY 			="OXIMETRY";
+	public static final String TEST_KEY_WEIGHT 				="WEIGHT";
+	public static final String TEST_KEY_PULSE 				="PULSE";
 
 }
