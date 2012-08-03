@@ -14,11 +14,8 @@
 
 package com.primum.mobile.activity;
 
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -60,8 +57,6 @@ public class DeviceConfigActivity extends Activity implements OnItemSelectedList
 			Toast.makeText(this, R.string.not_all_preferences_set, Toast.LENGTH_SHORT).show();
 		}
 		else{
-			finish();
-			getParent().finish();
 			Toast.makeText(this, R.string.preferences_saved, Toast.LENGTH_SHORT).show();
 		}
 	}

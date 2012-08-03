@@ -79,7 +79,6 @@ public class PatientConfigActivity extends Activity {
 	@Click(R.id.btnCancel)
 	void clickOnCancel(){
 		finish();
-		MainActivity_.intent(this).start();
 	}
 	
 	@Click(R.id.btnClear)
@@ -107,11 +106,11 @@ public class PatientConfigActivity extends Activity {
 	@UiThread
 	void gotUserFromServer(Patient patient){
 		dialog.cancel();
-		if(patient==null){
+		if(patient==null || patient.getPatientId()==0){
 			Toast.makeText(this, R.string.user_not_found_please_enter_data_manually, Toast.LENGTH_LONG).show();
-			txName.setFocusable(true);
-			txSurname1.setFocusable(true);
-			txSurname2.setFocusable(true);
+			txName.setFocusableInTouchMode(true);
+			txSurname1.setFocusableInTouchMode(true);
+			txSurname2.setFocusableInTouchMode(true);
 		}
 		else{
 			populateFiledsFromPatient(patient);

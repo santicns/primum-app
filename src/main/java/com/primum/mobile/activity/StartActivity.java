@@ -33,7 +33,7 @@ public class StartActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		Log.i(TAG, "onCreate");
-		LangUtils.updateLanguage(this, primumPrefs.deviceLang().get());
+		//LangUtils.updateLanguage(this, primumPrefs.deviceLang().get());
 		
         setContentView(R.layout.start);
     }

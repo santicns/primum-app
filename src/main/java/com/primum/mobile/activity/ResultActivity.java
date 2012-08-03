@@ -14,6 +14,11 @@
 package com.primum.mobile.activity;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -31,7 +36,6 @@ import com.primum.mobile.R;
 import com.primum.mobile.model.Patient;
 import com.primum.mobile.rest.MedicalTestRESTClient;
 import com.primum.mobile.rest.PatientRESTClient;
-import com.primum.mobile.util.Constants;
 import com.primum.mobile.util.PrimumPrefs_;
 
 @EActivity
@@ -99,14 +103,19 @@ public class ResultActivity extends Activity {
 	    		Log.d("TAG", "User does not exists in platform. Let's create it!");
 	    		p=patientRestClient.addPatient(primumPrefs.serviceUser().get(),currentPatient.getPatientKey(), currentPatient.getName(), currentPatient.getSurname1(), currentPatient.getSurname2(), 0);
 	    	}
-	    	medicalTestRestClient.addMedicalTest(primumPrefs.serviceUser().get(), p.getPatientId(), testKey, "dsfsa");
-	    	testSubmited();
+	    	try {
+				medicalTestRestClient.addMedicalTest(primumPrefs.serviceUser().get(), p.getPatientId(), testKey, readHL7());
+				testSubmited(BACK_TO_UI_THREAD_CODE_OK);
+			} catch (IOException e) {
+				testSubmited(BACK_TO_UI_THREAD_CODE_ERROR);
+			}
 		}
 	    
 	    @UiThread
-		void testSubmited(){
+		void testSubmited(int errorCode){
 			dialog.cancel();
-			Toast.makeText(this, R.string.test_correctly_saved, Toast.LENGTH_LONG).show();
+			if(errorCode==0)Toast.makeText(this, R.string.test_correctly_saved, Toast.LENGTH_LONG).show();
+			else Toast.makeText(this, "Unexpected error", Toast.LENGTH_LONG).show();
 		}
     
     @Click(R.id.btnHome)
@@ -115,6 +124,17 @@ public class ResultActivity extends Activity {
    		MainActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
    		
    	}
+    
+    private String readHL7() throws IOException{
+    	InputStream is = getResources().getAssets().open("hl7.xml");
+    	BufferedReader r = new BufferedReader(new InputStreamReader(is));
+    	StringBuilder total = new StringBuilder();
+    	String line;
+    	while ((line = r.readLine()) != null) {
+    	    total.append(line);
+    	}
+    	return total.toString();
+    }
     
     
     PatientRESTClient patientRestClient;
@@ -127,4 +147,7 @@ public class ResultActivity extends Activity {
 	PrimumPrefs_ primumPrefs;
     ProgressDialog dialog;
     static String TAG = "ResultActivity";
+    
+    private static final int BACK_TO_UI_THREAD_CODE_OK=0;
+    private static final int BACK_TO_UI_THREAD_CODE_ERROR=-1;
 }
