@@ -36,6 +36,7 @@ import com.primum.mobile.R;
 import com.primum.mobile.model.Patient;
 import com.primum.mobile.rest.MedicalTestRESTClient;
 import com.primum.mobile.rest.PatientRESTClient;
+import com.primum.mobile.util.ConnectionUtils;
 import com.primum.mobile.util.PrimumPrefs_;
 
 @EActivity
@@ -84,12 +85,17 @@ public class ResultActivity extends Activity {
     @Click(R.id.btnSave)
    	void clickOnSave() {
     	dialog = ProgressDialog.show(this, "",getString(R.string.saving_test_please_wait) , true);
-		dialog.show();
+		//dialog.show();
    	}
    
     
     @Click(R.id.btnSubmit)
    	void clickOnSubmit() {
+    	if(!ConnectionUtils.isOnline(this)){
+    		//TODO:Save tesdt locally
+			Toast.makeText(this, R.string.network_connection_not_available_test_has_been_saved_locally, Toast.LENGTH_LONG).show();
+			return;
+		}
     	dialog = ProgressDialog.show(this, "",getString(R.string.submitting_test_please_wait) , true);
 		dialog.show();
 		submitTest(testKey);

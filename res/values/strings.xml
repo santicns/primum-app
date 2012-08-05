@@ -47,4 +47,6 @@
     <string name="saving_test_please_wait">Saving test. Please wait.</string>
     <string name="submitting_test_please_wait">Submitting test. Please wait.</string>
     <string name="pulse">Pulse</string>
+    <string name="network_connection_not_available_you_can_enter_data_manually">Network connection not available. You can enter data manually.</string>
+    <string name="network_connection_not_available_test_has_been_saved_locally">Network connection not available. Test has been saved locally.</string>
 </resources>

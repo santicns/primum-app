@@ -30,6 +30,7 @@ import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
 import com.primum.mobile.model.Patient;
 import com.primum.mobile.rest.PatientRESTClient;
+import com.primum.mobile.util.ConnectionUtils;
 import com.primum.mobile.util.PrimumPrefs_;
 
 @EActivity
@@ -52,10 +53,15 @@ public class PatientConfigActivity extends Activity {
 	void clickOnGet() {
 
 		String patientId = txPatientId.getText().toString();
-		if(patientId.equals("")){
-			Toast.makeText(this, R.string.please_enter_a_valid_patient_id, Toast.LENGTH_LONG).show();
+		if(!ConnectionUtils.isOnline(this)){
+			Toast.makeText(this, R.string.network_connection_not_available_you_can_enter_data_manually, Toast.LENGTH_LONG).show();
+			enableFields();
 			return;
 		}
+		else if(patientId.equals("")){
+			Toast.makeText(this, R.string.please_enter_a_valid_patient_id, Toast.LENGTH_LONG).show();
+			return;
+		} 
 		
 		dialog = ProgressDialog.show(this, "", 
                 getString(R.string.loading_please_wait), true);
@@ -108,9 +114,7 @@ public class PatientConfigActivity extends Activity {
 		dialog.cancel();
 		if(patient==null || patient.getPatientId()==0){
 			Toast.makeText(this, R.string.user_not_found_please_enter_data_manually, Toast.LENGTH_LONG).show();
-			txName.setFocusableInTouchMode(true);
-			txSurname1.setFocusableInTouchMode(true);
-			txSurname2.setFocusableInTouchMode(true);
+			enableFields();
 		}
 		else{
 			populateFiledsFromPatient(patient);
@@ -122,6 +126,12 @@ public class PatientConfigActivity extends Activity {
 		txName.setText(patient.getName());
 		txSurname1.setText(patient.getSurname1());
 		txSurname2.setText(patient.getSurname2());
+	}
+	
+	private void enableFields(){
+		txName.setFocusableInTouchMode(true);
+		txSurname1.setFocusableInTouchMode(true);
+		txSurname2.setFocusableInTouchMode(true);
 	}
 
 	@ViewById

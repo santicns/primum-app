@@ -31,6 +31,7 @@ import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
 import com.primum.mobile.model.Patient;
 import com.primum.mobile.rest.PatientRESTClient;
+import com.primum.mobile.util.ConnectionUtils;
 import com.primum.mobile.util.PrimumPrefs_;
 
 @EActivity
@@ -47,7 +48,13 @@ public class PatientDataActivity extends Activity {
 	void clickOnGet() {
 
 		String patientId = txPatientId.getText().toString();
-		if(patientId.equals("")){
+		
+		if(!ConnectionUtils.isOnline(this)){
+			Toast.makeText(this, R.string.network_connection_not_available_you_can_enter_data_manually, Toast.LENGTH_LONG).show();
+			enableFields();
+			return;
+		}
+		else if(patientId.equals("")){
 			Toast.makeText(this, R.string.please_enter_a_valid_patient_id, Toast.LENGTH_LONG).show();
 			return;
 		}
@@ -116,6 +123,12 @@ public class PatientDataActivity extends Activity {
 
 	private boolean validateForm() {
 		return true;
+	}
+	
+	private void enableFields(){
+		txName.setFocusableInTouchMode(true);
+		txSurname1.setFocusableInTouchMode(true);
+		txSurname2.setFocusableInTouchMode(true);
 	}
 
 	@ViewById
