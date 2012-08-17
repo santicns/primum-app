@@ -28,11 +28,11 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/btnSave"
+            android:id="@+id/btnCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/save" />
+            android:text="@string/cancel" />
 
         <Button
             android:id="@+id/btnSubmit"
@@ -40,18 +40,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/submit" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/btnHome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/home" />
     </TableRow>
 
 </LinearLayout>

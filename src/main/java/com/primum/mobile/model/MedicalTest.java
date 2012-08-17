@@ -16,10 +16,18 @@ package com.primum.mobile.model;
 
 public class MedicalTest {
 	
+	private long medicalTestId;
 	private String patientKey;
 	private String medicalTestKey;
 	private String body;
 	
+	
+	public long getMedicalTestId() {
+		return medicalTestId;
+	}
+	public void setMedicalTestId(long medicalTestId) {
+		this.medicalTestId = medicalTestId;
+	}
 	public String getPatientKey() {
 		return patientKey;
 	}

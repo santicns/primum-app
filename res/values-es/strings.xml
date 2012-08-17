@@ -47,4 +47,5 @@
     <string name="saving_test_please_wait">Guardando prueba, espere por favor.</string>
     <string name="submitting_test_please_wait">Enviando prueba, espere por favor.</string>
     <string name="pulse">Pulso</string>
+    <string name="confirm_user">Confirmar usuario</string>
 </resources>

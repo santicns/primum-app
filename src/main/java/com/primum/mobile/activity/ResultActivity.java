@@ -82,12 +82,11 @@ public class ResultActivity extends Activity {
 		
 	}
     
-    @Click(R.id.btnSave)
-   	void clickOnSave() {
-    	dialog = ProgressDialog.show(this, "",getString(R.string.saving_test_please_wait) , true);
-		//dialog.show();
+    @Click(R.id.btnCancel)
+   	void clickOnCancel() {
+    	finish();
+   		MainActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
    	}
-   
     
     @Click(R.id.btnSubmit)
    	void clickOnSubmit() {
@@ -124,12 +123,6 @@ public class ResultActivity extends Activity {
 			else Toast.makeText(this, "Unexpected error", Toast.LENGTH_LONG).show();
 		}
     
-    @Click(R.id.btnHome)
-   	void clickOnHome() {
-    	finish();
-   		MainActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
-   		
-   	}
     
     private String readHL7() throws IOException{
     	InputStream is = getResources().getAssets().open("hl7.xml");

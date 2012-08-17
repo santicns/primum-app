@@ -84,7 +84,7 @@ public class TestsActivity extends Activity implements DialogInterface.OnClickLi
     
 	private void displayConfirmDialog() {
 		new AlertDialog.Builder(this)
-				.setTitle("Confirm user")
+				.setTitle(R.string.confirm_user)
 				.setMessage("Perform test with patient " + primumPrefs.patientId().get() + "?")
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.setPositiveButton(android.R.string.yes,this)
