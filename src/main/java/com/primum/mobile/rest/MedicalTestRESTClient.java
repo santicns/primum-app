@@ -20,6 +20,7 @@ import org.springframework.util.MultiValueMap;
 import android.util.Log;
 
 import com.google.gson.GsonBuilder;
+import com.primum.mobile.model.MedicalTest;
 import com.primum.mobile.util.PrimumPrefs_;
 
 public class MedicalTestRESTClient extends AbstractRESTClient{
@@ -28,12 +29,12 @@ public class MedicalTestRESTClient extends AbstractRESTClient{
 		super(primumPrefs);
 	}
 	
-	public boolean addMedicalTest(String userScreenName, long patientId, String medicalTestKey, String body){
+	public boolean addMedicalTest(long patientId, String medicalTestKey, String body){
 		String url = baseUrl + "/add-medical-test";
 		Log.d(TAG,"URL " + url);
 		
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
-		parts.add("userScreenName", userScreenName);
+		parts.add("userScreenName", primumPrefs.serviceUser().get());
 		parts.add("patientId", String.valueOf(patientId));
 		parts.add("medicalTestKey", medicalTestKey);
 		parts.add("body", body);

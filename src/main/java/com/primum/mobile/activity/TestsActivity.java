@@ -70,6 +70,7 @@ public class TestsActivity extends Activity implements DialogInterface.OnClickLi
     	switch (which) {
 		case AlertDialog.BUTTON1:
 			Patient predfinedPatient = PrefUtils.getPredefinedPatient(primumPrefs);
+			finish();
 			ResultActivity_.intent(this)
 				.currentPatient(predfinedPatient)
 				.testKey(getSelectedTest())
@@ -113,6 +114,8 @@ public class TestsActivity extends Activity implements DialogInterface.OnClickLi
 		}
 		return selectedTestKey;
 	}
+	
+	
     
     @ViewById
     RadioGroup rgTests;

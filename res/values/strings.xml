@@ -51,4 +51,7 @@
     <string name="network_connection_not_available_test_has_been_saved_locally">Network connection not available. Test has been saved locally.</string>
     <string name="available_tests">Available tests</string>
     <string name="confirm_user">Confirm user</string>
+    <string name="about">About</string>
+    <string name="unexpected_error">Unexpected error</string>
+    <string name="help">Help</string>
 </resources>

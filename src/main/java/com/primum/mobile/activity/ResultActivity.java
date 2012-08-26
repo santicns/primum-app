@@ -15,7 +15,6 @@ package com.primum.mobile.activity;
 
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -24,6 +23,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 import com.googlecode.androidannotations.annotations.Background;
@@ -34,9 +35,11 @@ import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
 import com.primum.mobile.model.Patient;
+import com.primum.mobile.persistence.MedicalTestDBManager;
 import com.primum.mobile.rest.MedicalTestRESTClient;
 import com.primum.mobile.rest.PatientRESTClient;
 import com.primum.mobile.util.ConnectionUtils;
+import com.primum.mobile.util.MedicalTestUtils;
 import com.primum.mobile.util.PrimumPrefs_;
 
 @EActivity
@@ -62,6 +65,7 @@ public class ResultActivity extends Activity {
 		super.onResume();
 		patientRestClient = new PatientRESTClient(primumPrefs);
 		medicalTestRestClient = new MedicalTestRESTClient(primumPrefs);
+		medicalTestDBManager = new MedicalTestDBManager(this);
 	}
 
 	@Background
@@ -91,53 +95,82 @@ public class ResultActivity extends Activity {
     @Click(R.id.btnSubmit)
    	void clickOnSubmit() {
     	if(!ConnectionUtils.isOnline(this)){
-    		//TODO:Save tesdt locally
 			Toast.makeText(this, R.string.network_connection_not_available_test_has_been_saved_locally, Toast.LENGTH_LONG).show();
-			return;
+			
+			Log.d(TAG, "Test will be saved locally");
+			medicalTestDBManager.addMedicalTest(currentPatient.getPatientKey(), testKey, readHL7());
+			finish();
 		}
-    	dialog = ProgressDialog.show(this, "",getString(R.string.submitting_test_please_wait) , true);
-		dialog.show();
-		submitTest(testKey);
+    	else{
+    		dialog = ProgressDialog.show(this, "",getString(R.string.submitting_test_please_wait) , true);
+    		dialog.show();
+    		submitTest(testKey);
+    	}
     }
     
 	    @Background
 		void submitTest(String testKey) {
+	    	boolean success = true;
 	    	Log.d(TAG, "Submitting test");
 	    	Patient p = patientRestClient.getPatient(primumPrefs.serviceUser().get(), currentPatient.getPatientKey());
 	    	if(p==null || p.getPatientId()==0){
 	    		Log.d("TAG", "User does not exists in platform. Let's create it!");
 	    		p=patientRestClient.addPatient(primumPrefs.serviceUser().get(),currentPatient.getPatientKey(), currentPatient.getName(), currentPatient.getSurname1(), currentPatient.getSurname2(), 0);
 	    	}
-	    	try {
-				medicalTestRestClient.addMedicalTest(primumPrefs.serviceUser().get(), p.getPatientId(), testKey, readHL7());
-				testSubmited(BACK_TO_UI_THREAD_CODE_OK);
-			} catch (IOException e) {
-				testSubmited(BACK_TO_UI_THREAD_CODE_ERROR);
-			}
+	    	
+    		if(medicalTestRestClient.addMedicalTest(p.getPatientId(), testKey, readHL7())){
+    			testSubmited(BACK_TO_UI_THREAD_CODE_OK);
+    		}
+    		else{
+    			testSubmited(BACK_TO_UI_THREAD_CODE_ERROR);
+    			success = false;
+    		}
+		
+    		if(success){
+    			MedicalTestUtils.submitStoredMedicalTests(medicalTestDBManager, medicalTestRestClient, p);
+    		}
+    		else{
+    			medicalTestDBManager.addMedicalTest(currentPatient.getPatientKey(), testKey, readHL7());
+    		}
+	  
 		}
 	    
-	    @UiThread
+
+		@UiThread
 		void testSubmited(int errorCode){
 			dialog.cancel();
 			if(errorCode==0)Toast.makeText(this, R.string.test_correctly_saved, Toast.LENGTH_LONG).show();
-			else Toast.makeText(this, "Unexpected error", Toast.LENGTH_LONG).show();
+			else Toast.makeText(this, R.string.unexpected_error, Toast.LENGTH_LONG).show();
+			finish();
 		}
     
     
-    private String readHL7() throws IOException{
-    	InputStream is = getResources().getAssets().open("hl7.xml");
-    	BufferedReader r = new BufferedReader(new InputStreamReader(is));
-    	StringBuilder total = new StringBuilder();
-    	String line;
-    	while ((line = r.readLine()) != null) {
-    	    total.append(line);
-    	}
-    	return total.toString();
+    private String readHL7(){
+    	try {
+	    	InputStream is = getResources().getAssets().open("hl7.xml");
+	    	BufferedReader r = new BufferedReader(new InputStreamReader(is));
+	    	StringBuilder total = new StringBuilder();
+	    	String line;
+	    	while ((line = r.readLine()) != null) {
+	    	    total.append(line);
+	    	}
+	    	return total.toString();
+    	} catch (Exception e) {
+			return "";
+		}
     }
+    
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_activity, menu);
+	    return true;
+	}
     
     
     PatientRESTClient patientRestClient;
     MedicalTestRESTClient medicalTestRestClient;
+    MedicalTestDBManager medicalTestDBManager;
     @Extra
 	Patient currentPatient;
     @Extra

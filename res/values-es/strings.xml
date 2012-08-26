@@ -46,6 +46,12 @@
     <string name="language">Idioma</string>
     <string name="saving_test_please_wait">Guardando prueba, espere por favor.</string>
     <string name="submitting_test_please_wait">Enviando prueba, espere por favor.</string>
-    <string name="pulse">Pulso</string>
+    <string name="pulse">Pulso</string>    
+    <string name="network_connection_not_available_you_can_enter_data_manually">Conexión de red no disponible. Puede insertar los datos manualmente.</string>
+    <string name="network_connection_not_available_test_has_been_saved_locally">Conexión de red no disponible. El test se ha almacenado en el dispositivo.</string>
+    <string name="available_tests">Tests disponibles</string>
     <string name="confirm_user">Confirmar usuario</string>
+    <string name="about">Acerca de...</string>
+    <string name="unexpected_error">Error iniesperado</string>
+    <string name="help">Ayuda</string>
 </resources>

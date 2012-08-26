@@ -18,6 +18,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -129,6 +131,13 @@ public class PatientDataActivity extends Activity {
 		txName.setFocusableInTouchMode(true);
 		txSurname1.setFocusableInTouchMode(true);
 		txSurname2.setFocusableInTouchMode(true);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_activity, menu);
+	    return true;
 	}
 
 	@ViewById

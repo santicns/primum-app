@@ -17,6 +17,8 @@ package com.primum.mobile.activity;
 import android.app.TabActivity;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.TabHost;
 
 import com.googlecode.androidannotations.annotations.EActivity;
@@ -48,7 +50,12 @@ public class ConfigActivity extends TabActivity {
 		
 	}
 	
-	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_activity, menu);
+	    return true;
+	}
 
 	TabHost tabHost;
 	static String TAG = "ConfigActivity";

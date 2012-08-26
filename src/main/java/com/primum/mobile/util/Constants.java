@@ -16,7 +16,8 @@ package com.primum.mobile.util;
 
 public class Constants {
 	
-	public static final int DB_VERSION_NUMBER			=0;
+	public static final String DB_NAME						="PRIMUM";
+	public static final int DB_VERSION_NUMBER			=2;
 	
 	public static final String PREFS 					="PREFS";
 	public static final String PREFS_DEVICE_ID 			="PREFS_DEVICE_ID";
