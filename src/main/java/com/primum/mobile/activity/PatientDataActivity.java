@@ -133,12 +133,12 @@ public class PatientDataActivity extends Activity {
 		txSurname2.setFocusableInTouchMode(true);
 	}
 	
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.main_activity, menu);
 	    return true;
-	}
+	}*/
 
 	@ViewById
 	EditText txPatientId;

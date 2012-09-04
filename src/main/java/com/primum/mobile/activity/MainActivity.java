@@ -18,15 +18,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
-import com.primum.mobile.util.Constants;
-import com.primum.mobile.util.LangUtils;
 import com.primum.mobile.util.PrefUtils;
 import com.primum.mobile.util.PrimumPrefs_;
 
@@ -66,12 +62,12 @@ public class MainActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.main_activity, menu);
 	    return true;
-	}
+	}*/
 
 
 

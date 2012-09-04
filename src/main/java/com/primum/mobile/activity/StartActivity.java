@@ -51,12 +51,12 @@ public class StartActivity extends Activity {
     	finish();
     }
     
-    @Override
+    /*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.main_activity, menu);
 	    return true;
-	}
+	}*/
     
     @Pref
 	PrimumPrefs_ primumPrefs; 
