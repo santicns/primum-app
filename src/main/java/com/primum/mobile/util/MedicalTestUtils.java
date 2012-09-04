@@ -31,7 +31,7 @@ public class MedicalTestUtils {
 			Log.d(TAG, "Medical tests stored: " + medicalTests.size());
 			for(MedicalTest medicalTest : medicalTests){
 				Log.d(TAG, "Submitting stored medical test " + medicalTest.getMedicalTestId());
-				//medicalTestRestClient.addMedicalTest(patient.getPatientId(), medicalTest.getMedicalTestKey(), medicalTest.getBody());
+				medicalTestRestClient.addMedicalTest(patient.getPatientId(), medicalTest.getMedicalTestKey(), medicalTest.getBody());
 				medicalTestDBManager.deleteMedicalTest(medicalTest);
 			}
 		}

@@ -34,6 +34,9 @@ import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
+import com.primum.mobile.device.DeviceFactory;
+import com.primum.mobile.device.GenericDevice;
+import com.primum.mobile.exception.TestResultException;
 import com.primum.mobile.model.Patient;
 import com.primum.mobile.persistence.MedicalTestDBManager;
 import com.primum.mobile.rest.MedicalTestRESTClient;
@@ -52,6 +55,7 @@ public class ResultActivity extends Activity {
         setContentView(R.layout.result);
         
         Log.d(TAG, "Results of test " + testKey + " for patient " + currentPatient.getPatientKey());
+        device = DeviceFactory.getDevice(testKey);
         
         dialog = ProgressDialog.show(this, "",
 				getString(R.string.performing_test_please_wait, currentPatient.getPatientKey()), true);
@@ -71,6 +75,7 @@ public class ResultActivity extends Activity {
 	@Background
 	void performTest(String testKey) {
     	try {
+    		device.performTest();
 			Thread.currentThread().sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -82,6 +87,7 @@ public class ResultActivity extends Activity {
     @UiThread
 	void testFinished(){
 		dialog.cancel();
+		device.printResult(this, R.id.resultLayout);
 		Toast.makeText(this, R.string.test_finished, Toast.LENGTH_LONG).show();
 		
 	}
@@ -98,7 +104,12 @@ public class ResultActivity extends Activity {
 			Toast.makeText(this, R.string.network_connection_not_available_test_has_been_saved_locally, Toast.LENGTH_LONG).show();
 			
 			Log.d(TAG, "Test will be saved locally");
-			medicalTestDBManager.addMedicalTest(currentPatient.getPatientKey(), testKey, readHL7());
+			try {
+				medicalTestDBManager.addMedicalTest(currentPatient.getPatientKey(), testKey, device.getHL7Message());
+			} catch (TestResultException e) {
+				Log.e(TAG, "Error reading HL7. Device may not have been initialized");
+			}
+			
 			finish();
 		}
     	else{
@@ -110,28 +121,34 @@ public class ResultActivity extends Activity {
     
 	    @Background
 		void submitTest(String testKey) {
-	    	boolean success = true;
-	    	Log.d(TAG, "Submitting test");
-	    	Patient p = patientRestClient.getPatient(primumPrefs.serviceUser().get(), currentPatient.getPatientKey());
-	    	if(p==null || p.getPatientId()==0){
-	    		Log.d("TAG", "User does not exists in platform. Let's create it!");
-	    		p=patientRestClient.addPatient(primumPrefs.serviceUser().get(),currentPatient.getPatientKey(), currentPatient.getName(), currentPatient.getSurname1(), currentPatient.getSurname2(), 0);
-	    	}
-	    	
-    		if(medicalTestRestClient.addMedicalTest(p.getPatientId(), testKey, readHL7())){
-    			testSubmited(BACK_TO_UI_THREAD_CODE_OK);
-    		}
-    		else{
-    			testSubmited(BACK_TO_UI_THREAD_CODE_ERROR);
-    			success = false;
-    		}
-		
-    		if(success){
-    			MedicalTestUtils.submitStoredMedicalTests(medicalTestDBManager, medicalTestRestClient, p);
-    		}
-    		else{
-    			medicalTestDBManager.addMedicalTest(currentPatient.getPatientKey(), testKey, readHL7());
-    		}
+	    	try {
+				
+		    	boolean success = true;
+		    	Log.d(TAG, "Submitting test");
+		    	Patient p = patientRestClient.getPatient(primumPrefs.serviceUser().get(), currentPatient.getPatientKey());
+		    	if(p==null || p.getPatientId()==0){
+		    		Log.d("TAG", "User does not exists in platform. Let's create it!");
+		    		p=patientRestClient.addPatient(primumPrefs.serviceUser().get(),currentPatient.getPatientKey(), currentPatient.getName(), currentPatient.getSurname1(), currentPatient.getSurname2(), 0);
+		    	}
+		    	
+	    		if(medicalTestRestClient.addMedicalTest(p.getPatientId(), testKey, device.getHL7Message())){
+	    			testSubmited(BACK_TO_UI_THREAD_CODE_OK);
+	    		}
+	    		else{
+	    			testSubmited(BACK_TO_UI_THREAD_CODE_ERROR);
+	    			success = false;
+	    		}
+			
+	    		if(success){
+	    			MedicalTestUtils.submitStoredMedicalTests(medicalTestDBManager, medicalTestRestClient, p);
+	    		}
+	    		else{
+	    			medicalTestDBManager.addMedicalTest(currentPatient.getPatientKey(), testKey, device.getHL7Message());
+	    		}
+    		
+	    	} catch (TestResultException e) {
+	    		Log.e(TAG, "Error reading HL7. Device may not have been initialized");
+			}
 	  
 		}
 	    
@@ -144,21 +161,7 @@ public class ResultActivity extends Activity {
 			finish();
 		}
     
-    
-    private String readHL7(){
-    	try {
-	    	InputStream is = getResources().getAssets().open("hl7.xml");
-	    	BufferedReader r = new BufferedReader(new InputStreamReader(is));
-	    	StringBuilder total = new StringBuilder();
-	    	String line;
-	    	while ((line = r.readLine()) != null) {
-	    	    total.append(line);
-	    	}
-	    	return total.toString();
-    	} catch (Exception e) {
-			return "";
-		}
-    }
+
     
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -171,6 +174,7 @@ public class ResultActivity extends Activity {
     PatientRESTClient patientRestClient;
     MedicalTestRESTClient medicalTestRestClient;
     MedicalTestDBManager medicalTestDBManager;
+    GenericDevice device;
     @Extra
 	Patient currentPatient;
     @Extra

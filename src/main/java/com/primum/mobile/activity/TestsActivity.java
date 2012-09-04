@@ -19,12 +19,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
 import com.primum.mobile.model.Patient;
@@ -42,28 +39,35 @@ public class TestsActivity extends Activity implements DialogInterface.OnClickLi
         setContentView(R.layout.tests);
     }
     
-    @Click(R.id.btnStart)
-	void clickOnStart() {
-    	int selected = rgTests.getCheckedRadioButtonId();
-    	if(selected!=-1){
-    		if(!PrefUtils.isUserSelected(primumPrefs)){
-    			PatientDataActivity_.intent(this)
-    			.testKey(getSelectedTest())
-    			.start();
-    		}
-    		else{
-    			displayConfirmDialog();
-    		}
-    	}
-    	else{
-    		Toast.makeText(this, R.string.select_one_test,  Toast.LENGTH_SHORT).show();
-    	}
+    
+    @Click(R.id.testOxy)
+	void clickOnOxy() {
+    	doTest(Constants.TEST_KEY_OXIMETRY);
+    }
+    
+    @Click(R.id.testPulse)
+	void clickOnPulse() {
+    	doTest(Constants.TEST_KEY_PULSE);
+    }
+    
+    
+    @Click(R.id.testWeight)
+	void clickOnWeight() {
+    	doTest(Constants.TEST_KEY_WEIGHT);
+    }
+    
+	void doTest(String testType) {
+		selectedTestType=testType;
+		if(!PrefUtils.isUserSelected(primumPrefs)){
+			PatientDataActivity_.intent(this)
+			.testKey(selectedTestType)
+			.start();
+		}
+		else{
+			displayConfirmDialog(selectedTestType);
+		}
 	}
     
-    @Click(R.id.btnBack)
-	void clickOnBack() {
-    	finish();
-	}
     
     @Override
 	public void onClick(DialogInterface dialog, int which) {
@@ -73,7 +77,7 @@ public class TestsActivity extends Activity implements DialogInterface.OnClickLi
 			finish();
 			ResultActivity_.intent(this)
 				.currentPatient(predfinedPatient)
-				.testKey(getSelectedTest())
+				.testKey(selectedTestType)
 				.start();	
 			break;
 
@@ -83,44 +87,37 @@ public class TestsActivity extends Activity implements DialogInterface.OnClickLi
 		}
 	}
     
-	private void displayConfirmDialog() {
+	private void displayConfirmDialog(String selectedTestType) {
+		String text = getString(R.string.perform_test, getTestNameString(selectedTestType), primumPrefs.patientId().get());
 		new AlertDialog.Builder(this)
 				.setTitle(R.string.confirm_user)
-				.setMessage("Perform test with patient " + primumPrefs.patientId().get() + "?")
+				.setMessage(text)
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.setPositiveButton(android.R.string.yes,this)
 				.setNegativeButton(android.R.string.no, this)
 				.show();
 	}
 	
-	private String getSelectedTest(){
-		String selectedTestKey="";
-		int selectedTest = rgTests.getCheckedRadioButtonId();
-		switch (selectedTest) {
-		case R.id.rbElectro:
-			selectedTestKey=Constants.TEST_KEY_ELECTROCARDIOGRAM;
-			break;
-		case R.id.rbWeight:
-			selectedTestKey=Constants.TEST_KEY_WEIGHT;
-			break;
-		case R.id.rbOximetry:
-			selectedTestKey=Constants.TEST_KEY_OXIMETRY;
-			break;
-		case R.id.rbPulse:
-			selectedTestKey=Constants.TEST_KEY_PULSE;
-			break;
-		default:
-			break;
+	private String getTestNameString(String selectedTestType){
+		if(Constants.TEST_KEY_ELECTROCARDIOGRAM.equals(selectedTestType)){
+			return getString(R.string.ELECTROCARDIOGRAM);
 		}
-		return selectedTestKey;
+		else if(Constants.TEST_KEY_OXIMETRY.equals(selectedTestType)){
+			return getString(R.string.OXIMETRY);
+		} 
+		else if(Constants.TEST_KEY_WEIGHT.equals(selectedTestType)){
+			return getString(R.string.WEIGHT_TEST);
+		}
+		else if(Constants.TEST_KEY_PULSE.equals(selectedTestType)){
+			return getString(R.string.PULSE_TEST);
+		}
+		else return "";
+		
 	}
-	
-	
-    
-    @ViewById
-    RadioGroup rgTests;
+
     @Pref
 	PrimumPrefs_ primumPrefs;
+    private String selectedTestType="";
     private static String TAG = "TestsActivity";
 	
 }
