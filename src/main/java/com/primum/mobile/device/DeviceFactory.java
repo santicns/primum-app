@@ -14,17 +14,19 @@
 
 package com.primum.mobile.device;
 
+import android.content.Context;
+
 import com.primum.mobile.util.Constants;
 
 public class DeviceFactory {
 
-	public static GenericDevice getDevice(String device_type){
+	public static GenericDevice getDevice(String device_type, Context context){
 
 		if(Constants.TEST_KEY_ELECTROCARDIOGRAM.equals(device_type)){
 			return new ElectrocardiogramDevice();
 		}
 		else if(Constants.TEST_KEY_OXIMETRY.equals(device_type)){
-			return new OximetryDevice();
+			return new OximetryDevice(context);
 		} 
 		else if(Constants.TEST_KEY_WEIGHT.equals(device_type)){
 			return new WeightDevice();

@@ -43,4 +43,12 @@ public abstract class GenericDevice {
 	protected String formatDate(Date date){
 		return sdf.format(date);
 	}
+
+	public void performTest(Activity context) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void cancelTest(){
+		
+	}
 }

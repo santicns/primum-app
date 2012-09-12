@@ -23,7 +23,8 @@
     <string name="weight">Peso</string>
     <string name="back">Atrás</string>
     <string name="start_test">Iniciar prueba</string>
-    <string name="test_finished">¡Prueba finalizada con éxito!</string>
+    <string name="test_finished_correctly">¡Prueba finalizada con éxito!</string>
+    <string name="test_finished_error">Prueba no realizada. Por favor asegúrese que está conectando el dispositivo.</string>
     <string name="submit">Enviar</string>
     <string name="home">Inicio</string>
     <string name="start">Comenzar</string>
@@ -34,9 +35,9 @@
     <string name="not_all_preferences_set">No se han definido todas las preferencias</string>
     <string name="preferences_saved">Preferencias almacenadas</string>
     <string name="please_enter_a_valid_patient_id">Por favor, inserte un identificador de paciente válido.</string>
-    <string name="loading_please_wait">Cargando, por favor, espere...</string>
+    <string name="loading_please_wait">Cargando, por favor, espere&#8230;</string>
     <string name="user_not_found_please_enter_data_manually">Paciente no encontrado en el sistema. Inserte los datos manualmente para crear un nuevo paciente.</string>
-    <string name="performing_test_please_wait">Realizando la prueba para el paciente %1$s. Por favor, espere...</string>
+    <string name="performing_test_please_wait">Realizando la prueba para el paciente %1$s. Por favor, espere&#8230;</string>
     <string name="test_correctly_saved">Prueba almacenada correctamente.</string>
     <string name="test_submited_correctly">Prueba enviada correctamente.</string>
     <string name="patient_password">Contraseña del paciente</string>
@@ -51,7 +52,28 @@
     <string name="network_connection_not_available_test_has_been_saved_locally">Conexión de red no disponible. El test se ha almacenado en el dispositivo.</string>
     <string name="available_tests">Tests disponibles</string>
     <string name="confirm_user">Confirmar usuario</string>
-    <string name="about">Acerca de...</string>
+    <string name="about">Acerca de&#8230;</string>
     <string name="unexpected_error">Error iniesperado</string>
     <string name="help">Ayuda</string>
+    <string name="choose_device_to_be_used">Elija el dispositivo.</string>
+    <string name="perform_test">Realizar %1$s con paciente %2$s?</string>
+    <string name="ELECTROCARDIOGRAM">electrocardiograma</string>
+    <string name="OXIMETRY">oximetría</string>
+    <string name="WEIGHT_TEST">test de peso</string>
+    <string name="PULSE_TEST">test de pulso</string>
+    <string name="test_time">Fecha del test:</string>
+    <string name="oxygen_saturation">Saturación de oxígeno:</string>
+    <string name="pulse_rate">Frecuencia cardiaca:</string>
+    <string name="systolic">Sistólica:</string>
+    <string name="diastolic">Diastólica:</string>
+    <string name="mean_arterial_presure">Presión arterial media:</string>
+    <string name="body_weight">Peso del cuerpo:</string>
+    <string name="body_height">Algura del cuerpo:</string>
+    <string name="body_mass_index">Índice de masa corporal:</string>
+    <string name="Oximetry">Oximetría</string>
+    <string name="Glucometry">Glucocometría</string>
+    <string name="id"></string>
+    <string name="retry">Reintentar</string>
+
+    
 </resources>

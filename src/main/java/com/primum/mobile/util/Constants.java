@@ -38,5 +38,8 @@ public class Constants {
 	public static final String TEST_KEY_OXIMETRY 			="OXIMETRY";
 	public static final String TEST_KEY_WEIGHT 				="WEIGHT";
 	public static final String TEST_KEY_PULSE 				="PULSE";
-
+	public static final String CORRECTLY 				="CORRECTLY";
+	public static final String TIME_OUT 				="TIME_OUT";
+	public static final String FORCED_EXIT 				="FORCED_EXIT";
+	public static final String REMOVED_FINGER 				="REMOVED_FINGER";
 }

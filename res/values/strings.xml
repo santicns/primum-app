@@ -23,7 +23,8 @@
     <string name="weight">Weight</string>
     <string name="back">Back</string>
     <string name="start_test">Start Test</string>
-    <string name="test_finished">Test finished!</string>
+    <string name="test_finished_correctly">Test finished correctly!</string>
+    <string name="test_finished_error">Test not performed, please ensure you are connecting the device.</string>
     <string name="submit">Submit</string>
     <string name="home">Home</string>
     <string name="start">Start</string>
@@ -53,8 +54,8 @@
     <string name="confirm_user">Confirm user</string>
     <string name="about">About</string>
     <string name="unexpected_error">Unexpected error</string>
-    <string name="help">Help</string>
-    <string name="choose_device_to_be_used">Choose device to be used.</string>
+    <string name="help">Help</string> 
+    <string name="choose_device_to_be_used">Choose device to be used.</string> 
     <string name="perform_test">Perform %1$s with patient %2$s?</string>
     <string name="ELECTROCARDIOGRAM">electrocardiogram</string>
     <string name="OXIMETRY">oximetry</string>
@@ -71,5 +72,7 @@
     <string name="body_mass_index">Body mass index:</string>
     <string name="Oximetry">Oximetry</string>
     <string name="Glucometry">Glucometry</string>
-     
+    <string name="id"></string>
+    <string name="retry">Retry</string>
+
 </resources>
