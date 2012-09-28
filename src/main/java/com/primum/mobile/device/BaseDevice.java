@@ -37,7 +37,7 @@ public abstract class BaseDevice implements Device {
 		this.context=context;
 		sdf = new SimpleDateFormat(DATE_FORMAT);
 	}
-
+ 
 	public abstract void performTest();
 	
 	public final void testFinished(String result){
