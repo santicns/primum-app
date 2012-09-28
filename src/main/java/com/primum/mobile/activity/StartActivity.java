@@ -35,19 +35,18 @@ public class StartActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		Log.i(TAG, "onCreate");
-		//LangUtils.updateLanguage(this, primumPrefs.deviceLang().get());
-		
+
         setContentView(R.layout.start);
     }
     
     @Click(R.id.btnStart)
-    public void onClickStart(){
+    public void onClickStart() {
     	finish();
     	MainActivity_.intent(this).start();
     }
     
     @Click(R.id.btnExit)
-    public void onClickExit(){
+    public void onClickExit() {
     	finish();
     }
     
@@ -61,5 +60,6 @@ public class StartActivity extends Activity {
     @Pref
 	PrimumPrefs_ primumPrefs; 
     private static String TAG = "StartActivity";
+
 }
 

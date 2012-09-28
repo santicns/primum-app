@@ -30,7 +30,7 @@ public class PatientRESTClient extends AbstractRESTClient{
 		super(primumPrefs);
 	}
 
-	public Patient getPatient(String deviceId, String patientKey){
+	public Patient getPatient(String deviceId, String patientKey) {
 		String url = baseUrl + "/get-patient";
 		
 		url=addParamToRequestURL(url,"userScreenName", deviceId);
@@ -42,7 +42,7 @@ public class PatientRESTClient extends AbstractRESTClient{
 		return gsonBuilder.create().fromJson(jsonObj, Patient.class);
 	}
 	
-	public Patient addPatient(Patient patient){
+	public Patient addPatient(Patient patient) {
 		String url = baseUrl + "/add-patient";
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();
@@ -51,7 +51,7 @@ public class PatientRESTClient extends AbstractRESTClient{
 	}
 	
 	
-	public Patient addPatient(String userScreenName, String patientKey, String name, String firstSurname, String secondSurname, long birthDate){
+	public Patient addPatient(String userScreenName, String patientKey, String name, String firstSurname, String secondSurname, long birthDate) {
 		String url = baseUrl + "/add-patient";
 		
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();

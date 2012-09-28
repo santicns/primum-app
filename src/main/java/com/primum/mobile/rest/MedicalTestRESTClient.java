@@ -29,11 +29,12 @@ public class MedicalTestRESTClient extends AbstractRESTClient{
 		super(primumPrefs);
 	}
 	
-	public boolean addMedicalTest(long patientId, String medicalTestKey, String body){
+	public boolean addMedicalTest(long patientId, String medicalTestKey, String body) {
 		String url = baseUrl + "/add-medical-test";
 		Log.d(TAG,"URL " + url);
 		
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
+
 		parts.add("userScreenName", primumPrefs.serviceUser().get());
 		parts.add("patientId", String.valueOf(patientId));
 		parts.add("medicalTestKey", medicalTestKey);
@@ -43,6 +44,7 @@ public class MedicalTestRESTClient extends AbstractRESTClient{
 		String jsonObj = rt.postForObject(url, parts, String.class);
 		Log.d(TAG,"jsonObj " + jsonObj);
 		Boolean result = gsonBuilder.create().fromJson(jsonObj, Boolean.class); 
+
 		return result.booleanValue();
 	}
 

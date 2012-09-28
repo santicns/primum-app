@@ -17,23 +17,9 @@ package com.primum.mobile.device;
 import android.app.Activity;
 
 
-public class ElectrocardiogramDevice extends GenericDevice {
+public class ElectrocardiogramDevice{}/* extends BaseDevice {
 
-	public ElectrocardiogramDevice(){}
-	
-	@Override
-	public void performTest() {
-	}
-	
-	@Override
-	public String getHL7Message() {
-		return "";
-	}
+	public ElectrocardiogramDevice() {
+    }
 
-	@Override
-	public void printResult(Activity activity, int destLayout) {
-		// TODO Auto-generated method stub
-		
-	}
-
-}
+}*/

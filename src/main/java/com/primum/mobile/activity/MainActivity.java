@@ -37,26 +37,24 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        
-        if(!PrefUtils.allPrefsSet(primumPrefs)){
+        if (!PrefUtils.allPrefsSet(primumPrefs)) {
         	finish();
         	ConfigActivity_.intent(this).start();
         }
+
         setContentView(R.layout.main);
     }
 
 	@Click(R.id.imgConfig)
-	void clickOnConfig(){
+	void clickOnConfig() {
 		ConfigActivity_.intent(this).start();
 	}
 	
 	@Click(R.id.imgNewTest)
-	void clickOnNewTest(){
+	void clickOnNewTest() {
 		TestsActivity_.intent(this).start();
 	}
-	
-	
-	
+
 	@Override
 	public void finishFromChild(Activity child) {
 		Log.d(TAG, "finishFromChild");
@@ -73,9 +71,8 @@ public class MainActivity extends Activity {
 	    return true;
 	}
 
-
-
 	@Pref
 	PrimumPrefs_ primumPrefs; 
 	private static String TAG = "MainActivity";
+
 }

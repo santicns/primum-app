@@ -15,6 +15,7 @@
 package com.primum.mobile.activity;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.primum.mobile.R;
+import com.primum.mobile.fragment.DatePickerFragment;
 import com.primum.mobile.model.Patient;
 import com.primum.mobile.rest.PatientRESTClient;
 import com.primum.mobile.util.ConnectionUtils;
@@ -38,6 +40,7 @@ public class PatientConfigActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.patient_config);
 		populateFieldsFromPrefs();
 	}
@@ -51,20 +54,19 @@ public class PatientConfigActivity extends Activity {
 
 	@Click(R.id.btnGetData)
 	void clickOnGet() {
-
 		String patientId = txPatientId.getText().toString();
-		if(!ConnectionUtils.isOnline(this)){
+
+		if (!ConnectionUtils.isOnline(this)) {
 			Toast.makeText(this, R.string.network_connection_not_available_you_can_enter_data_manually, Toast.LENGTH_LONG).show();
 			enableFields();
 			return;
 		}
-		else if(patientId.equals("")){
+		else if (patientId.equals("")) {
 			Toast.makeText(this, R.string.please_enter_a_valid_patient_id, Toast.LENGTH_LONG).show();
 			return;
 		} 
 		
-		dialog = ProgressDialog.show(this, "", 
-                getString(R.string.loading_please_wait), true);
+		dialog = ProgressDialog.show(this, "", getString(R.string.loading_please_wait), true);
 		dialog.show();
 		
 		askForPatientData(txPatientId.getText().toString());
@@ -77,27 +79,32 @@ public class PatientConfigActivity extends Activity {
 		primumPrefs.patientSurname1().put(txSurname1.getText().toString());
 		primumPrefs.patientSurname2().put(txSurname2.getText().toString());
 
-		Toast.makeText(this, R.string.patient_fixed, Toast.LENGTH_SHORT)
-				.show();
-		
+		Toast.makeText(this, R.string.patient_fixed, Toast.LENGTH_SHORT).show();
 	}
 	
 	@Click(R.id.btnCancel)
-	void clickOnCancel(){
+	void clickOnCancel() {
 		finish();
 	}
 	
 	@Click(R.id.btnClear)
-	void clickOnClear(){
+	void clickOnClear() {
 		txPatientId.setText("");
 		txName.setText("");
 		txSurname1.setText("");
 		txSurname2.setText("");
 	}
+
+	@Click(R.id.imgDate)
+	void clickOnDate(){
+		DialogFragment newFragment = new DatePickerFragment();
+	    newFragment.show(getFragmentManager(), "datePicker");
+	}
 	
 	@Background
 	void askForPatientData(String patientKey) {
 		Patient p = null;
+
 		try {
 			PatientRESTClient pClient = new PatientRESTClient(primumPrefs);
 			p = pClient.getPatient(primumPrefs.serviceUser().get() , patientKey);
@@ -106,17 +113,19 @@ public class PatientConfigActivity extends Activity {
 		catch (Exception e) {
 			Log.e(TAG, "Error getting patient", e);
 		}
-		gotUserFromServer(p);
+
+        gotUserFromServer(p);
 	}
 	
 	@UiThread
-	void gotUserFromServer(Patient patient){
+	void gotUserFromServer(Patient patient) {
 		dialog.cancel();
-		if(patient==null || patient.getPatientId()==0){
+
+        if (patient==null || patient.getPatientId()==0) {
 			Toast.makeText(this, R.string.user_not_found_please_enter_data_manually, Toast.LENGTH_LONG).show();
 			enableFields();
 		}
-		else{
+		else {
 			populateFiledsFromPatient(patient);
 		}
 	}
@@ -128,7 +137,7 @@ public class PatientConfigActivity extends Activity {
 		txSurname2.setText(patient.getSurname2());
 	}
 	
-	private void enableFields(){
+	private void enableFields() {
 		txName.setFocusableInTouchMode(true);
 		txSurname1.setFocusableInTouchMode(true);
 		txSurname2.setFocusableInTouchMode(true);
@@ -146,4 +155,5 @@ public class PatientConfigActivity extends Activity {
 	PrimumPrefs_ primumPrefs;
 	private ProgressDialog dialog;
 	private static String TAG = "PatientConfigActivity";
+
 }

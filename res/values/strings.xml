@@ -35,9 +35,9 @@
     <string name="not_all_preferences_set">Not all preferences set!</string>
     <string name="preferences_saved">Preferences saved</string>
     <string name="please_enter_a_valid_patient_id">Please enter a valid patient ID</string>
-    <string name="loading_please_wait">Loading. Please wait...</string>
+    <string name="loading_please_wait">Loading. Please wait&#8230;</string>
     <string name="user_not_found_please_enter_data_manually">User not found. Please enter data manually.</string>
-    <string name="performing_test_please_wait">Performing test from patient %1$s. Please wait...</string>
+    <string name="performing_test_please_wait">Performing test from patient %1$s. Please wait&#8230;</string>
     <string name="test_correctly_saved">Test correctly saved.</string>
     <string name="test_submited_correctly">Test submited correctly.</string>
     <string name="patient_password">Patient Password</string>
@@ -54,8 +54,8 @@
     <string name="confirm_user">Confirm user</string>
     <string name="about">About</string>
     <string name="unexpected_error">Unexpected error</string>
-    <string name="help">Help</string> 
-    <string name="choose_device_to_be_used">Choose device to be used.</string> 
+    <string name="help">Help</string>
+    <string name="choose_device_to_be_used">Choose device to be used.</string>
     <string name="perform_test">Perform %1$s with patient %2$s?</string>
     <string name="ELECTROCARDIOGRAM">electrocardiogram</string>
     <string name="OXIMETRY">oximetry</string>
@@ -74,5 +74,10 @@
     <string name="Glucometry">Glucometry</string>
     <string name="id"></string>
     <string name="retry">Retry</string>
-
+    <string name="gender">Gender</string>
+    <string name="select_birth_date">Select birth date</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="unexpected_error_happened">Unexpected error happened</string>
+    <string name="test_finished_error_retry">Test not performed, please ensure you are connecting the device. Would you like to retry?</string>
 </resources>

@@ -46,27 +46,27 @@ public class DeviceConfigActivity extends Activity implements OnItemSelectedList
 	}
 
 	@Click(R.id.btnSave)
-	void clickOnSave(){
+	void clickOnSave() {
 		primumPrefs.edit()
 			.serviceUrl().put(txServiceUrl.getText().toString())
 			.serviceUser().put(txServiceUser.getText().toString())
 			.servicepass().put(txServicePass.getText().toString())
 			.apply();
 			
-		if(!PrefUtils.allPrefsSet(primumPrefs)){
+		if (!PrefUtils.allPrefsSet(primumPrefs)) {
 			Toast.makeText(this, R.string.not_all_preferences_set, Toast.LENGTH_SHORT).show();
 		}
-		else{
+		else {
 			Toast.makeText(this, R.string.preferences_saved, Toast.LENGTH_SHORT).show();
 		}
 	}
 	
 	@Click(R.id.btnCancel)
-	void clickOnCancel(){
-		if(!PrefUtils.allPrefsSet(primumPrefs)){
+	void clickOnCancel() {
+		if (!PrefUtils.allPrefsSet(primumPrefs)) {
 			Toast.makeText(this, getString(R.string.not_all_preferences_set), Toast.LENGTH_SHORT).show();
 		}
-		else{
+		else {
 			getParent().finish();
 			finish();
 		}
@@ -76,24 +76,28 @@ public class DeviceConfigActivity extends Activity implements OnItemSelectedList
 		txServiceUrl.setText(primumPrefs.serviceUrl().getOr(Constants.DEFAULT_SERVICE_URL));
 		txServiceUser.setText(primumPrefs.serviceUser().get());
 		txServicePass.setText(primumPrefs.servicepass().get());
+
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
 		        R.array.languages, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		spLanguage.setAdapter(adapter);
-		for(int i=0; i<Constants.PREFS_LANG.length; i++){
-			if(primumPrefs.deviceLang().get().equals(Constants.PREFS_LANG[i])){
+
+        for(int i=0; i<Constants.PREFS_LANG.length; i++) {
+			if (primumPrefs.deviceLang().get().equals(Constants.PREFS_LANG[i])) {
 				Log.d(TAG,"Constants.PREFS_LANG[i] " + Constants.PREFS_LANG[i]);
 				spLanguage.setSelection(i);
 				break;
 			}
 		}
+
 		spLanguage.setOnItemSelectedListener(this);
 	}
 	
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
-		if(!primumPrefs.deviceLang().get().equals(Constants.PREFS_LANG[pos])){
+		if (!primumPrefs.deviceLang().get().equals(Constants.PREFS_LANG[pos])) {
 			primumPrefs.deviceLang().put(Constants.PREFS_LANG[pos]);
 			LangUtils.updateLanguage(this, primumPrefs.deviceLang().get());
 			reload();

@@ -14,33 +14,35 @@
 
 package com.primum.mobile.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.primum.mobile.model.Patient;
+
 public class HL7MessageGenerator {
 
-	public static void main (String args[]) {
-		
-		System.out.println("Testing the HL7 Message Generator");
+	private static String DATE_FORMAT = "yyyyMMddhhmmSS";
+	private static SimpleDateFormat sdf;
 	
-		// Cabecera del mensaje
-
-		String MSH = "MSH|^~\\&|PrimumHealthIT^" + _deviceMacAddress + "^EUI-64||||" + _medicalTestTime + "||ORU^R01^ORU_R01|MSGID1234|P|2.6|||NE|AL|||||IHE PCD ORU-R01 2006^HL7^2.16.840.1.113883.9.n.m^HL7";
-
-		// Identificación del paciente
-
-		String PID = "PID|||" + _patientId + "^^^Primum Health IT^PI||" + _patientFullName + "^^^^L^A||" + _patientBirthday + "|" + _patientGender;
-
-		// OBR (Observation Request)
-
-		String OBR = "OBR|1|0001^PrimumHealthIT^" + _deviceMacAddress + "^EUI-64|0001^PrimumHealthIT^" + _deviceMacAddress + "^EUI-64|182777000^monitoring of patient^SNOMED-CT|||" + _medicalTestTime;
-
-		// OBX (Observation Result) - depende de cada dispositivo conectado
-		
-		String OBX = getTensiometerOBX("ABCD12345678DEFA", "20120912213421", "123", "54", "54", "123");
-		
-		String HL7message = MSH + PID + OBR + OBX;
-		
-		System.out.println("This is the generated HL7 message: \n " + HL7message);
-	}	
 	
+	public static String getHeader(String deviceMacAddress, Date medicalTestTime, Patient patient){
+		return getMSH(deviceMacAddress, medicalTestTime) + getPID(patient) + getOBR(deviceMacAddress, medicalTestTime);
+	}
+	
+	public static String getMSH(String deviceMacAddress, Date medicalTestTime){
+		sdf = new SimpleDateFormat(DATE_FORMAT);
+		return "MSH|^~\\&|PrimumHealthIT^" + deviceMacAddress + "^EUI-64||||" + sdf.format(medicalTestTime) + "||ORU^R01^ORU_R01|MSGID1234|P|2.6|||NE|AL|||||IHE PCD ORU-R01 2006^HL7^2.16.840.1.113883.9.n.m^HL7";
+	}
+	
+	public static String getPID(Patient patient){
+		sdf = new SimpleDateFormat(DATE_FORMAT);
+		return "PID|||" + patient.getPatientId() + "^^^Primum Health IT^PI||" + patient.getFullName() + "^^^^L^A||" + sdf.format(patient.getBirthDate()) + "|" + patient.getGender();
+	}
+	
+	public static String getOBR(String deviceMacAddress, Date medicalTestTime){
+		sdf = new SimpleDateFormat(DATE_FORMAT);
+		return "OBR|1|0001^PrimumHealthIT^" + deviceMacAddress + "^EUI-64|0001^PrimumHealthIT^" + deviceMacAddress + "^EUI-64|182777000^monitoring of patient^SNOMED-CT|||" + sdf.format(medicalTestTime);
+	}
 
 	public static String getTensiometerOBX(String tensiometerMacAddress, String medicalTestTime, String systolic, String diastolic, String meanArterialPresure, String pulseRate) {
 		return "OBX|1||528391^MDC_DEV_SPEC_PROFILE_BP^MDC|1|||||||X|||||||" + tensiometerMacAddress + "^EUI-64" + 
@@ -71,6 +73,32 @@ public class HL7MessageGenerator {
 	private final static String _patientBirthday = "19430312000000+0000";	// Formato YY MM DD HH mm SS +/-ZZZZ
 	private final static String _patientGender = "M";
 
+	
+	
+public static void main (String args[]) {
+		
+		System.out.println("Testing the HL7 Message Generator");
+	
+		// Cabecera del mensaje
+
+		String MSH = "MSH|^~\\&|PrimumHealthIT^" + _deviceMacAddress + "^EUI-64||||" + _medicalTestTime + "||ORU^R01^ORU_R01|MSGID1234|P|2.6|||NE|AL|||||IHE PCD ORU-R01 2006^HL7^2.16.840.1.113883.9.n.m^HL7";
+
+		// Identificación del paciente
+
+		String PID = "PID|||" + _patientId + "^^^Primum Health IT^PI||" + _patientFullName + "^^^^L^A||" + _patientBirthday + "|" + _patientGender;
+
+		// OBR (Observation Request)
+
+		String OBR = "OBR|1|0001^PrimumHealthIT^" + _deviceMacAddress + "^EUI-64|0001^PrimumHealthIT^" + _deviceMacAddress + "^EUI-64|182777000^monitoring of patient^SNOMED-CT|||" + _medicalTestTime;
+
+		// OBX (Observation Result) - depende de cada dispositivo conectado
+		
+		String OBX = getTensiometerOBX("ABCD12345678DEFA", "20120912213421", "123", "54", "54", "123");
+		
+		String HL7message = MSH + PID + OBR + OBX;
+		
+		System.out.println("This is the generated HL7 message: \n " + HL7message);
+	}
 }
 
 

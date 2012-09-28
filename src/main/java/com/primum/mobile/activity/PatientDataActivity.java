@@ -51,18 +51,17 @@ public class PatientDataActivity extends Activity {
 
 		String patientId = txPatientId.getText().toString();
 		
-		if(!ConnectionUtils.isOnline(this)){
+		if (!ConnectionUtils.isOnline(this)) {
 			Toast.makeText(this, R.string.network_connection_not_available_you_can_enter_data_manually, Toast.LENGTH_LONG).show();
 			enableFields();
 			return;
 		}
-		else if(patientId.equals("")){
+		else if (patientId.equals("")) {
 			Toast.makeText(this, R.string.please_enter_a_valid_patient_id, Toast.LENGTH_LONG).show();
 			return;
 		}
 		
-		dialog = ProgressDialog.show(this, "", 
-                getString(R.string.loading_please_wait), true);
+		dialog = ProgressDialog.show(this, "", getString(R.string.loading_please_wait), true);
 		dialog.show();
 		
 		askForPatientData(txPatientId.getText().toString());
@@ -70,7 +69,7 @@ public class PatientDataActivity extends Activity {
 	
 	@Click(R.id.btnStartTest)
 	void clickOnStartTest() {
-		if(validateForm()){
+		if (validateForm()) {
 			Patient currentPatient = new Patient();
 			currentPatient.setPatientKey(txPatientId.getText().toString());
 			currentPatient.setName(txName.getText().toString());
@@ -99,19 +98,21 @@ public class PatientDataActivity extends Activity {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		gotUserFromServer(p);
 	}
 	
 	@UiThread
-	void gotUserFromServer(Patient patient){
+	void gotUserFromServer(Patient patient) {
 		dialog.cancel();
-		if(patient==null || patient.getPatientId()==0){
+
+		if (patient==null || patient.getPatientId()==0) {
 			Toast.makeText(this, R.string.user_not_found_please_enter_data_manually, Toast.LENGTH_LONG).show();
 			txName.setFocusableInTouchMode(true);
 			txSurname1.setFocusableInTouchMode(true);
 			txSurname2.setFocusableInTouchMode(true);
 		}
-		else{
+		else {
 			populateFileds(patient);
 		}
 		
@@ -127,7 +128,7 @@ public class PatientDataActivity extends Activity {
 		return true;
 	}
 	
-	private void enableFields(){
+	private void enableFields() {
 		txName.setFocusableInTouchMode(true);
 		txSurname1.setFocusableInTouchMode(true);
 		txSurname2.setFocusableInTouchMode(true);
@@ -154,4 +155,5 @@ public class PatientDataActivity extends Activity {
 	String testKey;
 	private ProgressDialog dialog;
 	private static String TAG = "PatientData1Activity";
+
 }

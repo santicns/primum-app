@@ -35,29 +35,31 @@ public abstract class AbstractRESTClient {
 		String serviceUrl = primumPrefs.serviceUrl().getOr(Constants.DEFAULT_SERVICE_URL);
 		
 		httpClient.getCredentialsProvider().setCredentials(
-				new AuthScope(serviceUrl, 80),
-				new UsernamePasswordCredentials(
-						primumPrefs.serviceUser().get(), 
-						primumPrefs.servicepass().get()));
-	
+            new AuthScope(serviceUrl, 80),
+            new UsernamePasswordCredentials(
+                primumPrefs.serviceUser().get(),
+                primumPrefs.servicepass().get()));
+
 		baseUrl = "http://" + serviceUrl  + "/" + getServiceContext() + "/api/secure/jsonws/" + getModelName();
 		requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
 		rt = new RestTemplate(requestFactory);
 		rt.getMessageConverters().add(new GsonHttpMessageConverter());
 	}
 	
-	
-	protected String addParamToRequestURL(String requestURL, String paramName, Object value){
+	protected String addParamToRequestURL(String requestURL, String paramName, Object value) {
 		String newRequestURL = requestURL;
-		if(value==null || value.toString().equals(""))  return requestURL + "/-" + paramName;
-		else{
-			if(value instanceof Date) {
-				newRequestURL = newRequestURL + "/" + paramName + "/" + ((Date)value).getTime();
-			}
-			else  {
-				newRequestURL = newRequestURL + "/" + paramName + "/" + value.toString();
-			} 
-		}
+
+		if (value==null || value.toString().equals("")) {
+            return requestURL + "/-" + paramName;
+        }
+
+        if (value instanceof Date) {
+            newRequestURL = newRequestURL + "/" + paramName + "/" + ((Date)value).getTime();
+        }
+        else {
+            newRequestURL = newRequestURL + "/" + paramName + "/" + value.toString();
+        }
+
 		return newRequestURL;
 	}
 
@@ -71,4 +73,5 @@ public abstract class AbstractRESTClient {
 	protected String TAG = this.getClass().getName();
 	protected HttpComponentsClientHttpRequestFactory requestFactory;
 	protected RestTemplate rt;
+
 }

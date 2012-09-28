@@ -20,21 +20,22 @@ import com.primum.mobile.util.Constants;
 
 public class DeviceFactory {
 
-	public static GenericDevice getDevice(String device_type, Context context){
+	public static Device getDevice(String device_type, Context context) {
 
-		if(Constants.TEST_KEY_ELECTROCARDIOGRAM.equals(device_type)){
+		/*if (Constants.TEST_KEY_ELECTROCARDIOGRAM.equals(device_type)) {
 			return new ElectrocardiogramDevice();
 		}
-		else if(Constants.TEST_KEY_OXIMETRY.equals(device_type)){
+
+        else */if (Constants.TEST_KEY_OXIMETRY.equals(device_type)) {
 			return new OximetryDevice(context);
 		} 
-		else if(Constants.TEST_KEY_WEIGHT.equals(device_type)){
+		/*else if(Constants.TEST_KEY_WEIGHT.equals(device_type)){
 			return new WeightDevice();
 		}
 		else if(Constants.TEST_KEY_PULSE.equals(device_type)){
 			return new PulseDevice();
 		}
-		else{
+		*/else{
 			return null;
 		}
 	}

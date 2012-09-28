@@ -41,78 +41,93 @@ public class MedicalTestDBManager extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		if(newVersion>oldVersion){
+		if (newVersion>oldVersion) {
 			db.execSQL("DROP TABLE IF EXISTS MedicalTest");
 			db.execSQL(createTableSentence());
 		}
 	}
 	
-	public void addMedicalTest(MedicalTest medicalTest){
+	public void addMedicalTest(MedicalTest medicalTest) {
 		addMedicalTest(medicalTest.getPatientKey(), medicalTest.getMedicalTestKey(), medicalTest.getBody());
 	}
 	
-	public void addMedicalTest(String patientKey, String medicalTestKey, String body){
+	public void addMedicalTest(String patientKey, String medicalTestKey, String body) {
 		ContentValues contentValues = new ContentValues();
-		contentValues.put("patientKey", patientKey);
+
+        contentValues.put("patientKey", patientKey);
 		contentValues.put("medicalTestKey", medicalTestKey);
 		contentValues.put("body", body);
 		
 		getWritableDatabase().insert(TABLE_NAME, null, contentValues);
 	}
 	
-	public MedicalTest getMedicalTest(long medicalTestId){
+	public MedicalTest getMedicalTest(long medicalTestId) {
 		//TODO
 		return null;
 	}
 	
-	public int deleteMedicalTest(MedicalTest medicalTest){
+	public int deleteMedicalTest(MedicalTest medicalTest) {
 		return deleteMedicalTest(medicalTest.getMedicalTestId());
 	}
 	
-	public int deleteMedicalTest(long medicalTestId){
+	public int deleteMedicalTest(long medicalTestId) {
 		String[] whereArgs = {String.valueOf(medicalTestId)};
 		Log.d(TAG, "Delete medicalTest " + medicalTestId);
 		return this.getWritableDatabase().delete(TABLE_NAME, "medicalTestId=?", whereArgs);
 	}
 	
 	
-	public List<MedicalTest> getAllTests(){
+	public List<MedicalTest> getAllTests() {
 		String[] selectionArgs = {};
 		Cursor c = getReadableDatabase().rawQuery("select patientKey, medicalTestKey, body from " + TABLE_NAME, selectionArgs);
-		if(c==null)return null;
+
+        if (c==null) {
+            return null;
+        }
+
 		List<MedicalTest> medicalTests = new ArrayList<MedicalTest>();
-		while(c.moveToNext()){
+
+		while(c.moveToNext()) {
 			medicalTests.add(cursorToMedicalTest(c));
 		}
-		return medicalTests;
+
+        return medicalTests;
 	}
 	
-	public List<MedicalTest> getPatientTests(String patientKey){
+	public List<MedicalTest> getPatientTests(String patientKey) {
 		String[] selectionArgs = {patientKey};
 		Cursor c = getReadableDatabase().rawQuery("select medicalTestId, patientKey, medicalTestKey, body from " + TABLE_NAME + " where patientKey = ?", selectionArgs);
-		if(c==null)return null;
+
+        if (c==null) {
+            return null;
+        }
+
 		List<MedicalTest> medicalTests = new ArrayList<MedicalTest>();
-		while(c.moveToNext()){
+
+        while(c.moveToNext()) {
 			medicalTests.add(cursorToMedicalTest(c));
 		}
-		return medicalTests;
+
+        return medicalTests;
 	}
 	
-	public boolean deletePatientTests(String patientKey){
+	public boolean deletePatientTests(String patientKey) {
 		return false;
 	}
 	
-	private String createTableSentence(){
+	private String createTableSentence() {
 		return "CREATE TABLE " + TABLE_NAME + " ( medicalTestId INTEGER primary key autoincrement, patientKey TEXT, medicalTestKey TEXT, body TEXT)";
 	}
 	
-	private MedicalTest cursorToMedicalTest(Cursor cursor){
+	private MedicalTest cursorToMedicalTest(Cursor cursor) {
 		MedicalTest medicalTest = new MedicalTest();
-		medicalTest.setPatientKey(cursor.getString(cursor.getColumnIndex("patientKey")));
+
+        medicalTest.setPatientKey(cursor.getString(cursor.getColumnIndex("patientKey")));
 		medicalTest.setMedicalTestId(cursor.getInt(cursor.getColumnIndex("medicalTestId")));
 		medicalTest.setMedicalTestKey(cursor.getString(cursor.getColumnIndex("medicalTestKey")));
 		medicalTest.setBody(cursor.getString(cursor.getColumnIndex("body")));
-		return medicalTest;
+
+        return medicalTest;
 	}
 	
 	protected String TAG = this.getClass().getName();

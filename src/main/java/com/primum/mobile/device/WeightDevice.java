@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.primum.mobile.R;
 import com.primum.mobile.util.HL7MessageGenerator;
 
-public class WeightDevice extends GenericDevice {
+public class WeightDevice{}/* extends BaseDevice {
 
 	private String scaleMacAddress="";
 	private Date medicalTestTime;
@@ -94,4 +94,4 @@ public class WeightDevice extends GenericDevice {
 		return bodyMassIndex;
 	}
 	
-}
+}*/

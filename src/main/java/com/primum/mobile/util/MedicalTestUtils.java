@@ -25,13 +25,16 @@ import com.primum.mobile.rest.MedicalTestRESTClient;
 
 public class MedicalTestUtils {
 
-	public static void submitStoredMedicalTests(MedicalTestDBManager medicalTestDBManager, MedicalTestRESTClient medicalTestRestClient, Patient patient){
+	public static void submitStoredMedicalTests(MedicalTestDBManager medicalTestDBManager, MedicalTestRESTClient medicalTestRestClient, Patient patient) {
 		List<MedicalTest> medicalTests = medicalTestDBManager.getPatientTests(patient.getPatientKey());
-		if(medicalTests!=null){
+
+		if (medicalTests!=null) {
 			Log.d(TAG, "Medical tests stored: " + medicalTests.size());
-			for(MedicalTest medicalTest : medicalTests){
+
+            for (MedicalTest medicalTest : medicalTests) {
 				Log.d(TAG, "Submitting stored medical test " + medicalTest.getMedicalTestId());
-				medicalTestRestClient.addMedicalTest(patient.getPatientId(), medicalTest.getMedicalTestKey(), medicalTest.getBody());
+
+                medicalTestRestClient.addMedicalTest(patient.getPatientId(), medicalTest.getMedicalTestKey(), medicalTest.getBody());
 				medicalTestDBManager.deleteMedicalTest(medicalTest);
 			}
 		}

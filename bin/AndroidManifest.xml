@@ -46,7 +46,6 @@
         </activity>
          <activity
             android:name=".activity.ResultActivity_">
-           
               <action android:name="com.signove.health.service.HealthService_" />
         </activity>
          <activity

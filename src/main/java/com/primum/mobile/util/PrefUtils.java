@@ -26,22 +26,22 @@ public class PrefUtils {
 
 	public static boolean allPrefsExist(PrimumPrefs_ primumPrefs) {
 		return primumPrefs.serviceUrl().exists()
-				&& primumPrefs.serviceUser().exists()
-				&& primumPrefs.servicepass().exists();
+            && primumPrefs.serviceUser().exists()
+            && primumPrefs.servicepass().exists();
 	}
 
 	public static boolean noneBlank(PrimumPrefs_ primumPrefs) {
 		return !primumPrefs.serviceUrl().get().equals("")
-				&& !primumPrefs.serviceUser().get().equals("")
-				&& !primumPrefs.servicepass().get().equals("");
+            && !primumPrefs.serviceUser().get().equals("")
+            && !primumPrefs.servicepass().get().equals("");
 	}
 	
 	public static boolean isUserSelected(PrimumPrefs_ primumPrefs) {
 		return !primumPrefs.patientId().get().equals("");
 	}
 	
-	public static Patient getPredefinedPatient(PrimumPrefs_ primumPrefs){
-		if(primumPrefs.patientId()!=null && !primumPrefs.patientId().equals("")){
+	public static Patient getPredefinedPatient(PrimumPrefs_ primumPrefs) {
+		if (primumPrefs.patientId()!=null && !primumPrefs.patientId().equals("")) {
 			Patient currentPatient = new Patient();
 			currentPatient.setPatientKey(primumPrefs.patientId().get());
 			currentPatient.setName(primumPrefs.patientName().get());
@@ -49,7 +49,7 @@ public class PrefUtils {
 			currentPatient.setSurname2(primumPrefs.patientSurname2().get());
 			return currentPatient;
 		}
-		else{
+		else {
 			Log.d(TAG, "No predefined patient");
 			return null;
 		}

@@ -24,15 +24,7 @@ import android.widget.TextView;
 import com.primum.mobile.R;
 import com.primum.mobile.util.HL7MessageGenerator;
 
-public class PulseDevice extends GenericDevice {
-
-	
-	private String tensiometerMacAddress="";
-	private Date medicalTestTime;
-	private String systolic="";
-	private String diastolic="";
-	private String meanArterialPresure="";
-	private String pulseRate="";
+public class PulseDevice {}/* extends BaseDevice {
 	
 	@Override
 	public void performTest() {
@@ -103,8 +95,14 @@ public class PulseDevice extends GenericDevice {
 	public String getPulseRate() {
 		return pulseRate;
 	}
-	
+
+	private String tensiometerMacAddress="";
+	private Date medicalTestTime;
+	private String systolic="";
+	private String diastolic="";
+	private String meanArterialPresure="";
+	private String pulseRate="";
 	
 
-}
+}*/
 

@@ -38,8 +38,7 @@ public class TestsActivity extends Activity implements DialogInterface.OnClickLi
 		Log.i(TAG, "onCreate");
         setContentView(R.layout.tests);
     }
-    
-    
+
     @Click(R.id.testOxy)
 	void clickOnOxy() {
     	doTest(Constants.TEST_KEY_OXIMETRY);
@@ -49,41 +48,41 @@ public class TestsActivity extends Activity implements DialogInterface.OnClickLi
 	void clickOnPulse() {
     	doTest(Constants.TEST_KEY_PULSE);
     }
-    
-    
+
     @Click(R.id.testWeight)
 	void clickOnWeight() {
     	doTest(Constants.TEST_KEY_WEIGHT);
     }
     
 	void doTest(String testType) {
-		selectedTestType=testType;
-		if(!PrefUtils.isUserSelected(primumPrefs)){
+		selectedTestType = testType;
+
+		if (!PrefUtils.isUserSelected(primumPrefs)) {
 			PatientDataActivity_.intent(this)
 			.testKey(selectedTestType)
 			.start();
 		}
-		else{
+		else {
 			displayConfirmDialog(selectedTestType);
 		}
 	}
-    
-    
+
     @Override
 	public void onClick(DialogInterface dialog, int which) {
     	switch (which) {
-		case AlertDialog.BUTTON1:
-			Patient predfinedPatient = PrefUtils.getPredefinedPatient(primumPrefs);
-			finish();
-			ResultActivity_.intent(this)
-				.currentPatient(predfinedPatient)
-				.testKey(selectedTestType)
-				.start();	
-			break;
+            case AlertDialog.BUTTON1:
+                Patient predfinedPatient = PrefUtils.getPredefinedPatient(primumPrefs);
+                finish();
 
-		case AlertDialog.BUTTON2:
-			//NOP
-			break;
+                ResultActivity_.intent(this)
+                    .currentPatient(predfinedPatient)
+                    .testKey(selectedTestType)
+                    .start();
+
+                break;
+
+            case AlertDialog.BUTTON2:
+                break;
 		}
 	}
     
@@ -98,20 +97,24 @@ public class TestsActivity extends Activity implements DialogInterface.OnClickLi
 				.show();
 	}
 	
-	private String getTestNameString(String selectedTestType){
-		if(Constants.TEST_KEY_ELECTROCARDIOGRAM.equals(selectedTestType)){
+	private String getTestNameString(String selectedTestType) {
+		if (Constants.TEST_KEY_ELECTROCARDIOGRAM.equals(selectedTestType)) {
 			return getString(R.string.ELECTROCARDIOGRAM);
 		}
-		else if(Constants.TEST_KEY_OXIMETRY.equals(selectedTestType)){
+
+        if (Constants.TEST_KEY_OXIMETRY.equals(selectedTestType)) {
 			return getString(R.string.OXIMETRY);
 		} 
-		else if(Constants.TEST_KEY_WEIGHT.equals(selectedTestType)){
+
+        if (Constants.TEST_KEY_WEIGHT.equals(selectedTestType)) {
 			return getString(R.string.WEIGHT_TEST);
 		}
-		else if(Constants.TEST_KEY_PULSE.equals(selectedTestType)){
+
+        if (Constants.TEST_KEY_PULSE.equals(selectedTestType)) {
 			return getString(R.string.PULSE_TEST);
 		}
-		else return "";
+
+        return "";
 		
 	}
 
