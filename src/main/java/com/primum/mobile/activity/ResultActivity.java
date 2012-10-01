@@ -78,9 +78,9 @@ public class ResultActivity extends Activity {
     @UiThread
 	public void testFinished(String mode) {
     	dialog.cancel();
-    	Log.d("Prueba", "He llegado al final del test");
+    	
     	if (mode.compareTo(Device.TEST_RESULT_OK)==0 ) {
-    		Log.d("Prueba", "Entro con resultado OK");
+    		
 			device.printResult(this, R.id.resultLayout);
 			Toast.makeText(this, R.string.test_finished_correctly, Toast.LENGTH_LONG).show();
     	}
@@ -165,6 +165,8 @@ public class ResultActivity extends Activity {
 
 	private void createCancelProgressDialog(String title, String message) {
         dialog = new ProgressDialog(this);
+        
+        dialog.setCancelable(false);
         dialog.setMessage(message);
         dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

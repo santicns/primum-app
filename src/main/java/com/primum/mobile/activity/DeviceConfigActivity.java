@@ -44,7 +44,7 @@ public class DeviceConfigActivity extends Activity implements OnItemSelectedList
 		setContentView(R.layout.device_config);
 		populateLayout();
 	}
-
+	
 	@Click(R.id.btnSave)
 	void clickOnSave() {
 		primumPrefs.edit()

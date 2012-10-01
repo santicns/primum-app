@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -48,7 +47,6 @@ import android.widget.TextView;
 import com.primum.mobile.R;
 import com.primum.mobile.activity.ResultActivity;
 import com.primum.mobile.exception.TestResultException;
-import com.primum.mobile.util.Constants;
 import com.primum.mobile.util.HL7MessageGenerator;
 import com.signove.health.service.HealthAgentAPI;
 import com.signove.health.service.HealthServiceAPI;
@@ -73,7 +71,7 @@ public class OximetryDevice extends BaseDevice {
 		context.startService(intent);
 		context.bindService(intent, serviceConnection, 0);
 		dialogTimer = new Timer();
-
+		
         dialogTimer.schedule(new TimerTask() {
 			public void run() {
 				//This condition is redundant because if the test is canceled the timer is stopped and it wouldn't reach this
@@ -141,6 +139,10 @@ public class OximetryDevice extends BaseDevice {
             dialogTimer.cancel();
 
             testFinished(Device.TEST_RESULT_REMOVED_FINGER);
+            
+            //We force a cancel on purpose
+    		testCanceled=true;
+
         }
     }
 
@@ -269,8 +271,10 @@ public class OximetryDevice extends BaseDevice {
 		}
 		
 		if (!testCanceled) {
+			testCanceled=true;
 			gotData = true;
 			testFinished(Device.TEST_RESULT_OK);
+			
 		}
 	}
 	
